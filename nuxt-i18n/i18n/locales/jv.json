@@ -1,0 +1,102 @@
+{
+  "user": {
+    "memberCenter": "Pusat Anggota",
+    "register": "Daftar",
+    "login": "Mlebu",
+    "logout": "Metu",
+    "closeLogin": "Tutup Login",
+    "points": "{count} poin"
+  },
+  "auth": {
+    "registerTitle": "Daftar",
+    "loginTitle": "Mlebu",
+    "username": "Jeneng Panganggo",
+    "email": "Email",
+    "password": "Sandhi",
+    "registering": "Lagi ndaftar...",
+    "loggingIn": "Lagi mlebu...",
+    "alreadyHaveAccount": "Wis duwe akun?",
+    "dontHaveAccount": "Durung duwe akun?",
+    "usernameOrEmail": "Jeneng Panganggo utawa Email",
+    "rememberMe": "Elinga aku"
+  },
+  "search": {
+    "placeholder": "Goleki...",
+    "button": "Goleki"
+  },
+  "nav": {
+    "home": "Omah",
+    "shop": "Toko",
+    "about": "Babagan Kita",
+    "contact": "Kontak"
+  },
+  "menu": {
+    "shop": {
+      "label": "Toko",
+      "items": {
+        "0": { "label": "Kategori Toko A" },
+        "1": { "label": "Kategori Toko B" },
+        "2": { "label": "Kategori Toko C" }
+      }
+    },
+    "support": {
+      "label": "Dhukungan",
+      "items": {
+        "0": { "label": "Pitakon sing Kerep Ditakoni" },
+        "1": { "label": "Hubungi Kita" },
+        "2": { "label": "Garansi" }
+      }
+    },
+    "about": {
+      "label": "Babagan Kita",
+      "items": {
+        "0": { "label": "Crita Kita" },
+        "1": { "label": "Tim" },
+        "2": { "label": "Karir" }
+      }
+    },
+    "member": {
+      "label": "Anggota",
+      "items": {
+        "0": { "label": "Rencana Keanggotaan" },
+        "1": { "label": "Poin & Hadiah" },
+        "2": { "label": "Penawaran Eksklusif" }
+      }
+    }
+  },
+  "member": {
+    "brief": {
+      "membershipLevel": "Tingkat keanggotaan:",
+      "productDiscountRate": "Tingkat diskon produk:",
+      "pointsDiscountRate": "Tingkat diskon poin:",
+      "canBeStacked": "Iso ditumpuk"
+    },
+    "common": { "yes": "Ya", "no": "Ora" },
+    "levels": {
+      "title": "Tingkat keanggotaan",
+      "header": {
+        "level": "Tingkat",
+        "pointsRequired": "Poin sing dibutuhake",
+        "productDiscount": "Diskon produk",
+        "pointsDiscount": "Diskon poin"
+      },
+      "rows": {
+        "ordinary": "Biasa",
+        "bronze": "Perunggu",
+        "silver": "Perak",
+        "gold": "Emas",
+        "supreme": "Tertinggi"
+      }
+    },
+    "points": {
+      "title": "Carane entuk poin?",
+      "invite": "Undang pangguna anyar",
+      "inviteDesc": "50 Poin (sing diundang entuk 30 Poin)",
+      "consume": "Dhuwit",
+      "consumeDesc": "1 Dolar = 1 Poin",
+      "daily": "Login saben dina",
+      "dailyDesc": "1 Poin (valid 30 dina)"
+    }
+  },
+  "promo": { "memberCta": "Up to 50% Off for Members" }
+}

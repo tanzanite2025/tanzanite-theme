@@ -1,0 +1,102 @@
+{
+  "user": {
+    "memberCenter": "Medlemscenter",
+    "register": "Registrera",
+    "login": "Logga in",
+    "logout": "Logga ut",
+    "closeLogin": "Stäng inloggning",
+    "points": "{count} poäng"
+  },
+  "auth": {
+    "registerTitle": "Registrera",
+    "loginTitle": "Logga in",
+    "username": "Användarnamn",
+    "email": "E-post",
+    "password": "Lösenord",
+    "registering": "Registrerar...",
+    "loggingIn": "Loggar in...",
+    "alreadyHaveAccount": "Har du redan ett konto?",
+    "dontHaveAccount": "Har du inget konto?",
+    "usernameOrEmail": "Användarnamn eller e-post",
+    "rememberMe": "Kom ihåg mig"
+  },
+  "search": {
+    "placeholder": "Sök...",
+    "button": "Sök"
+  },
+  "nav": {
+    "home": "Hem",
+    "shop": "Butik",
+    "about": "Om oss",
+    "contact": "Kontakt"
+  },
+  "menu": {
+    "shop": {
+      "label": "Butik",
+      "items": {
+        "0": { "label": "Butikskategori A" },
+        "1": { "label": "Butikskategori B" },
+        "2": { "label": "Butikskategori C" }
+      }
+    },
+    "support": {
+      "label": "Support",
+      "items": {
+        "0": { "label": "Vanliga frågor" },
+        "1": { "label": "Kontakta oss" },
+        "2": { "label": "Garanti" }
+      }
+    },
+    "about": {
+      "label": "Om oss",
+      "items": {
+        "0": { "label": "Vår historia" },
+        "1": { "label": "Team" },
+        "2": { "label": "Karriär" }
+      }
+    },
+    "member": {
+      "label": "Medlem",
+      "items": {
+        "0": { "label": "Medlemsplaner" },
+        "1": { "label": "Poäng & belöningar" },
+        "2": { "label": "Exklusiva erbjudanden" }
+      }
+    }
+  },
+  "member": {
+    "brief": {
+      "membershipLevel": "Medlemsnivå:",
+      "productDiscountRate": "Produktrabatt:",
+      "pointsDiscountRate": "Poängrabatt:",
+      "canBeStacked": "Kan kombineras"
+    },
+    "common": { "yes": "Ja", "no": "Nej" },
+    "levels": {
+      "title": "Medlemsnivåer",
+      "header": {
+        "level": "Nivå",
+        "pointsRequired": "Krävda poäng",
+        "productDiscount": "Produktrabatt",
+        "pointsDiscount": "Poängrabatt"
+      },
+      "rows": {
+        "ordinary": "Ordinarie",
+        "bronze": "Brons",
+        "silver": "Silver",
+        "gold": "Guld",
+        "supreme": "Supreme"
+      }
+    },
+    "points": {
+      "title": "Hur får man poäng?",
+      "invite": "Bjud in nya användare",
+      "inviteDesc": "50 poäng (den inbjudna får 30 poäng)",
+      "consume": "Valuta",
+      "consumeDesc": "1 Dollar = 1 Poäng",
+      "daily": "Daglig inloggning",
+      "dailyDesc": "1 poäng (giltigt i 30 dagar)"
+    }
+  },
+  "promo": { "memberCta": "Upp till 50% rabatt för medlemmar" }
+}

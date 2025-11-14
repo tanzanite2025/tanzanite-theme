@@ -1,0 +1,113 @@
+{
+  "welcome": "Bienvenue",
+  "home": "Accueil",
+  "category": "Catégorie",
+  "subcategory": "Sous-catégorie",
+  "search": {
+    "placeholder": "Rechercher...",
+    "button": "Rechercher"
+  },
+  "filters": {
+    "wheelDiameter": "Diamètre de roue",
+    "price": "Prix",
+    "brand": "Marque",
+    "brakeStyle": "Style de frein",
+    "color": "Couleur",
+    "all": "Tout"
+  },
+  "user": {
+    "register": "S'inscrire",
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "points": "Point: {count}"
+  },
+  "cta": {
+    "becomeMemb": "🎉Devenez membre pour profiter de jusqu'à 30% de réduction🎉"
+  },
+  "auth": {
+    "registerTitle": "S'inscrire",
+    "loginTitle": "Connexion",
+    "username": "Nom d'utilisateur",
+    "email": "Email",
+    "password": "Mot de passe",
+    "registering": "Inscription...",
+    "loggingIn": "Connexion...",
+    "alreadyHaveAccount": "Vous avez déjà un compte?",
+    "dontHaveAccount": "Vous n'avez pas de compte?",
+    "usernameOrEmail": "Nom d'utilisateur ou Email"
+  },
+  "menu": {
+    "shop": {
+      "label": "Boutique",
+      "items": {
+        "0": { "label": "Catégorie A" },
+        "1": { "label": "Catégorie B" },
+        "2": { "label": "Catégorie C" }
+      }
+    },
+    "support": {
+      "label": "Support",
+      "items": {
+        "0": { "label": "FAQ" },
+        "1": { "label": "Contactez-nous" },
+        "2": { "label": "Garantie" }
+      }
+    },
+    "about": {
+      "label": "À Propos",
+      "items": {
+        "0": { "label": "Notre Histoire" },
+        "1": { "label": "Équipe" },
+        "2": { "label": "Carrières" }
+      }
+    },
+    "member": {
+      "label": "Membre",
+      "items": {
+        "0": { "label": "Plans d'Adhésion" },
+        "1": { "label": "Points et Récompenses" },
+        "2": { "label": "Offres Exclusives" }
+      }
+    }
+  },
+  "member": {
+    "brief": {
+      "membershipLevel": "Niveau d'adhésion :",
+      "productDiscountRate": "Taux de remise produit :",
+      "pointsDiscountRate": "Taux de remise points :",
+      "canBeStacked": "Cumulable"
+    },
+    "common": {
+      "yes": "Oui",
+      "no": "Non"
+    },
+    "levels": {
+      "title": "Niveaux d'adhésion",
+      "header": {
+        "level": "Niveau",
+        "pointsRequired": "Points requis",
+        "productDiscount": "Remise produit",
+        "pointsDiscount": "Remise points"
+      },
+      "rows": {
+        "ordinary": "Ordinaire",
+        "bronze": "Bronze",
+        "silver": "Argent",
+        "gold": "Or",
+        "supreme": "Suprême"
+      }
+    },
+    "points": {
+      "title": "Comment obtenir des points ?",
+      "invite": "Inviter de nouveaux utilisateurs",
+      "inviteDesc": "50 points (l'invité reçoit 30 points)",
+      "consume": "Devise de consommation",
+      "consumeDesc": "1 Dollar = 1 Point",
+      "daily": "Connexion quotidienne",
+      "dailyDesc": "1 point (validité de 30 jours)"
+    }
+  },
+  "promo": {
+    "memberCta": "Jusqu'à -50% pour les membres"
+  }
+}

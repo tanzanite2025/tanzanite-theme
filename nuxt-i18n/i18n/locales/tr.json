@@ -1,0 +1,102 @@
+{
+  "user": {
+    "memberCenter": "Üye Merkezi",
+    "register": "Kayıt Ol",
+    "login": "Giriş Yap",
+    "logout": "Çıkış Yap",
+    "closeLogin": "Girişi Kapat",
+    "points": "{count} puan"
+  },
+  "auth": {
+    "registerTitle": "Kayıt Ol",
+    "loginTitle": "Giriş Yap",
+    "username": "Kullanıcı Adı",
+    "email": "E-posta",
+    "password": "Şifre",
+    "registering": "Kayıt olunuyor...",
+    "loggingIn": "Giriş yapılıyor...",
+    "alreadyHaveAccount": "Zaten hesabınız var mı?",
+    "dontHaveAccount": "Hesabınız yok mu?",
+    "usernameOrEmail": "Kullanıcı Adı veya E-posta",
+    "rememberMe": "Beni hatırla"
+  },
+  "search": {
+    "placeholder": "Ara...",
+    "button": "Ara"
+  },
+  "nav": {
+    "home": "Ana Sayfa",
+    "shop": "Mağaza",
+    "about": "Hakkımızda",
+    "contact": "İletişim"
+  },
+  "menu": {
+    "shop": {
+      "label": "Mağaza",
+      "items": {
+        "0": { "label": "Mağaza Kategorisi A" },
+        "1": { "label": "Mağaza Kategorisi B" },
+        "2": { "label": "Mağaza Kategorisi C" }
+      }
+    },
+    "support": {
+      "label": "Destek",
+      "items": {
+        "0": { "label": "SSS" },
+        "1": { "label": "Bize Ulaşın" },
+        "2": { "label": "Garanti" }
+      }
+    },
+    "about": {
+      "label": "Hakkımızda",
+      "items": {
+        "0": { "label": "Hikayemiz" },
+        "1": { "label": "Ekip" },
+        "2": { "label": "Kariyer" }
+      }
+    },
+    "member": {
+      "label": "Üye",
+      "items": {
+        "0": { "label": "Üyelik Planları" },
+        "1": { "label": "Puanlar ve Ödüller" },
+        "2": { "label": "Özel Teklifler" }
+      }
+    }
+  },
+  "member": {
+    "brief": {
+      "membershipLevel": "Üyelik seviyesi:",
+      "productDiscountRate": "Ürün indirim oranı:",
+      "pointsDiscountRate": "Puan indirim oranı:",
+      "canBeStacked": "Birleştirilebilir"
+    },
+    "common": { "yes": "Evet", "no": "Hayır" },
+    "levels": {
+      "title": "Üyelik seviyeleri",
+      "header": {
+        "level": "Seviye",
+        "pointsRequired": "Gerekli puanlar",
+        "productDiscount": "Ürün indirimi",
+        "pointsDiscount": "Puan indirimi"
+      },
+      "rows": {
+        "ordinary": "Standart",
+        "bronze": "Bronz",
+        "silver": "Gümüş",
+        "gold": "Altın",
+        "supreme": "Üst"
+      }
+    },
+    "points": {
+      "title": "Puan nasıl kazanılır?",
+      "invite": "Yeni kullanıcıları davet et",
+      "inviteDesc": "50 puan (davet edilen 30 puan alır)",
+      "consume": "Para birimi",
+      "consumeDesc": "1 Dolar = 1 Puan",
+      "daily": "Günlük giriş",
+      "dailyDesc": "1 puan (30 gün geçerli)"
+    }
+  },
+  "promo": { "memberCta": "Üyelere özel %50'ye varan indirim" }
+}

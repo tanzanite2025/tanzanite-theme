@@ -1,0 +1,108 @@
+{
+  "welcome": "Benvenuto",
+  "home": "Home",
+  "category": "Categoria",
+  "subcategory": "Sottocategoria",
+  "search": {
+    "placeholder": "Cerca...",
+    "button": "Cerca"
+  },
+  "filters": {
+    "wheelDiameter": "Diametro ruota",
+    "price": "Prezzo",
+    "brand": "Marca",
+    "brakeStyle": "Stile freno",
+    "color": "Colore",
+    "all": "Tutto"
+  },
+  "user": {
+    "register": "Registrati",
+    "login": "Accedi",
+    "logout": "Esci",
+    "points": "Punto: {count}"
+  },
+  "cta": {
+    "becomeMemb": "🎉Diventa membro per godere fino al 30% di sconto🎉"
+  },
+  "auth": {
+    "registerTitle": "Registrati",
+    "loginTitle": "Accedi",
+    "username": "Nome utente",
+    "email": "Email",
+    "password": "Password",
+    "registering": "Registrazione...",
+    "loggingIn": "Accesso...",
+    "alreadyHaveAccount": "Hai già un account?",
+    "dontHaveAccount": "Non hai un account?",
+    "usernameOrEmail": "Nome utente o email"
+  },
+  "menu": {
+    "shop": {
+      "label": "Negozio",
+      "items": {
+        "0": { "label": "Categoria A" },
+        "1": { "label": "Categoria B" },
+        "2": { "label": "Categoria C" }
+      }
+    },
+    "support": {
+      "label": "Supporto",
+      "items": {
+        "0": { "label": "FAQ" },
+        "1": { "label": "Contattaci" },
+        "2": { "label": "Garanzia" }
+      }
+    },
+    "about": {
+      "label": "Chi Siamo",
+      "items": {
+        "0": { "label": "La Nostra Storia" },
+        "1": { "label": "Team" },
+        "2": { "label": "Carriere" }
+      }
+    },
+    "member": {
+      "label": "Membro",
+      "items": {
+        "0": { "label": "Piani di Abbonamento" },
+        "1": { "label": "Punti e Premi" },
+        "2": { "label": "Offerte Esclusive" }
+      }
+    }
+  },
+  "member": {
+    "brief": {
+      "membershipLevel": "Livello di appartenenza:",
+      "productDiscountRate": "Tasso sconto prodotto:",
+      "pointsDiscountRate": "Tasso sconto punti:",
+      "canBeStacked": "Combinabile"
+    },
+    "common": { "yes": "Sì", "no": "No" },
+    "levels": {
+      "title": "Livelli di appartenenza",
+      "header": {
+        "level": "Livello",
+        "pointsRequired": "Punti richiesti",
+        "productDiscount": "Sconto prodotto",
+        "pointsDiscount": "Sconto punti"
+      },
+      "rows": {
+        "ordinary": "Ordinario",
+        "bronze": "Bronzo",
+        "silver": "Argento",
+        "gold": "Oro",
+        "supreme": "Supremo"
+      }
+    },
+    "points": {
+      "title": "Come ottenere punti?",
+      "invite": "Invita nuovi utenti",
+      "inviteDesc": "50 punti (l'invitato riceve 30 punti)",
+      "consume": "Valuta di spesa",
+      "consumeDesc": "1 Dollaro = 1 Punto",
+      "daily": "Accesso quotidiano",
+      "dailyDesc": "1 punto (validità 30 giorni)"
+    }
+  },
+  "promo": { "memberCta": "Fino al 50% di sconto per i membri" }
+}

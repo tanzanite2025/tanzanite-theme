@@ -1,0 +1,113 @@
+{
+  "welcome": "Willkommen",
+  "home": "Startseite",
+  "category": "Kategorie",
+  "subcategory": "Unterkategorie",
+  "search": {
+    "placeholder": "Suchen...",
+    "button": "Suchen"
+  },
+  "filters": {
+    "wheelDiameter": "Raddurchmesser",
+    "price": "Preis",
+    "brand": "Marke",
+    "brakeStyle": "Bremsstil",
+    "color": "Farbe",
+    "all": "Alle"
+  },
+  "user": {
+    "register": "Registrieren",
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "points": "Punkt: {count}"
+  },
+  "cta": {
+    "becomeMemb": "🎉Werden Sie Mitglied und genießen Sie bis zu 30% Rabatt🎉"
+  },
+  "auth": {
+    "registerTitle": "Registrieren",
+    "loginTitle": "Anmelden",
+    "username": "Benutzername",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "registering": "Registrierung...",
+    "loggingIn": "Anmeldung...",
+    "alreadyHaveAccount": "Haben Sie bereits ein Konto?",
+    "dontHaveAccount": "Haben Sie kein Konto?",
+    "usernameOrEmail": "Benutzername oder E-Mail"
+  },
+  "menu": {
+    "shop": {
+      "label": "Shop",
+      "items": {
+        "0": { "label": "Kategorie A" },
+        "1": { "label": "Kategorie B" },
+        "2": { "label": "Kategorie C" }
+      }
+    },
+    "support": {
+      "label": "Support",
+      "items": {
+        "0": { "label": "FAQ" },
+        "1": { "label": "Kontaktieren Sie uns" },
+        "2": { "label": "Garantie" }
+      }
+    },
+    "about": {
+      "label": "Über Uns",
+      "items": {
+        "0": { "label": "Unsere Geschichte" },
+        "1": { "label": "Team" },
+        "2": { "label": "Karriere" }
+      }
+    },
+    "member": {
+      "label": "Mitglied",
+      "items": {
+        "0": { "label": "Mitgliedschaftspläne" },
+        "1": { "label": "Punkte & Belohnungen" },
+        "2": { "label": "Exklusive Angebote" }
+      }
+    }
+  },
+  "member": {
+    "brief": {
+      "membershipLevel": "Mitgliedsstatus:",
+      "productDiscountRate": "Produkt-Rabattrate:",
+      "pointsDiscountRate": "Punkte-Rabattrate:",
+      "canBeStacked": "Kombinierbar"
+    },
+    "common": {
+      "yes": "Ja",
+      "no": "Nein"
+    },
+    "levels": {
+      "title": "Mitgliedsstufen",
+      "header": {
+        "level": "Stufe",
+        "pointsRequired": "Erforderliche Punkte",
+        "productDiscount": "Produktrabatt",
+        "pointsDiscount": "Punkterabatt"
+      },
+      "rows": {
+        "ordinary": "Standard",
+        "bronze": "Bronze",
+        "silver": "Silber",
+        "gold": "Gold",
+        "supreme": "Premium"
+      }
+    },
+    "points": {
+      "title": "Wie erhält man Punkte?",
+      "invite": "Neue Nutzer einladen",
+      "inviteDesc": "50 Punkte (Eingeladener erhält 30 Punkte)",
+      "consume": "Währung für Verbrauch",
+      "consumeDesc": "1 Dollar = 1 Punkt",
+      "daily": "Tägliche Anmeldung",
+      "dailyDesc": "1 Punkt (30 Tage Gültigkeit)"
+    }
+  },
+  "promo": {
+    "memberCta": "Bis zu 50% Rabatt für Mitglieder"
+  }
+}

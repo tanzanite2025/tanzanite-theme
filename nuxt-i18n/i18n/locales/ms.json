@@ -1,0 +1,102 @@
+{
+  "user": {
+    "memberCenter": "Pusat Ahli",
+    "register": "Daftar",
+    "login": "Log Masuk",
+    "logout": "Log Keluar",
+    "closeLogin": "Tutup Log Masuk",
+    "points": "{count} mata"
+  },
+  "auth": {
+    "registerTitle": "Daftar",
+    "loginTitle": "Log Masuk",
+    "username": "Nama Pengguna",
+    "email": "E-mel",
+    "password": "Kata Laluan",
+    "registering": "Mendaftar...",
+    "loggingIn": "Log masuk...",
+    "alreadyHaveAccount": "Sudah mempunyai akaun?",
+    "dontHaveAccount": "Tidak mempunyai akaun?",
+    "usernameOrEmail": "Nama Pengguna atau E-mel",
+    "rememberMe": "Ingat saya"
+  },
+  "search": {
+    "placeholder": "Cari...",
+    "button": "Cari"
+  },
+  "nav": {
+    "home": "Laman Utama",
+    "shop": "Kedai",
+    "about": "Tentang Kami",
+    "contact": "Hubungi"
+  },
+  "menu": {
+    "shop": {
+      "label": "Kedai",
+      "items": {
+        "0": { "label": "Kategori Kedai A" },
+        "1": { "label": "Kategori Kedai B" },
+        "2": { "label": "Kategori Kedai C" }
+      }
+    },
+    "support": {
+      "label": "Sokongan",
+      "items": {
+        "0": { "label": "Soalan Lazim" },
+        "1": { "label": "Hubungi Kami" },
+        "2": { "label": "Waranti" }
+      }
+    },
+    "about": {
+      "label": "Tentang Kami",
+      "items": {
+        "0": { "label": "Kisah Kami" },
+        "1": { "label": "Pasukan" },
+        "2": { "label": "Kerjaya" }
+      }
+    },
+    "member": {
+      "label": "Ahli",
+      "items": {
+        "0": { "label": "Pelan Keahlian" },
+        "1": { "label": "Mata & Ganjaran" },
+        "2": { "label": "Tawaran Eksklusif" }
+      }
+    }
+  },
+  "member": {
+    "brief": {
+      "membershipLevel": "Tahap keahlian:",
+      "productDiscountRate": "Kadar diskaun produk:",
+      "pointsDiscountRate": "Kadar diskaun mata:",
+      "canBeStacked": "Boleh digabung"
+    },
+    "common": { "yes": "Ya", "no": "Tidak" },
+    "levels": {
+      "title": "Tahap keahlian",
+      "header": {
+        "level": "Tahap",
+        "pointsRequired": "Mata diperlukan",
+        "productDiscount": "Diskaun produk",
+        "pointsDiscount": "Diskaun mata"
+      },
+      "rows": {
+        "ordinary": "Biasa",
+        "bronze": "Gangsa",
+        "silver": "Perak",
+        "gold": "Emas",
+        "supreme": "Tertinggi"
+      }
+    },
+    "points": {
+      "title": "Cara mendapatkan mata?",
+      "invite": "Jemput pengguna baharu",
+      "inviteDesc": "50 mata (yang dijemput menerima 30 mata)",
+      "consume": "Mata wang",
+      "consumeDesc": "1 Dolar = 1 Mata",
+      "daily": "Log masuk harian",
+      "dailyDesc": "1 mata (sah 30 hari)"
+    }
+  },
+  "promo": { "memberCta": "Diskaun sehingga 50% untuk ahli" }
+}

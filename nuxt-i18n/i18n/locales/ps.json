@@ -1,0 +1,102 @@
+{
+  "user": {
+    "memberCenter": "د غړي مرکز",
+    "register": "راجستر کړئ",
+    "login": "ننوتل",
+    "logout": "وتل",
+    "closeLogin": "ننوتل بند کړئ",
+    "points": "{count} پوائنټونه"
+  },
+  "auth": {
+    "registerTitle": "راجستر کړئ",
+    "loginTitle": "ننوتل",
+    "username": "کارن نوم",
+    "email": "بریښنالیک",
+    "password": "پټنوم",
+    "registering": "راجستر کیږي...",
+    "loggingIn": "ننوځي...",
+    "alreadyHaveAccount": "مخکې له دې حساب لرئ؟",
+    "dontHaveAccount": "حساب نه لرئ؟",
+    "usernameOrEmail": "کارن نوم یا بریښنالیک",
+    "rememberMe": "ما یاد ساتئ"
+  },
+  "search": {
+    "placeholder": "لټون...",
+    "button": "لټون"
+  },
+  "nav": {
+    "home": "کور",
+    "shop": "پلورنځی",
+    "about": "زموږ په اړه",
+    "contact": "اړیکه"
+  },
+  "menu": {
+    "shop": {
+      "label": "پلورنځی",
+      "items": {
+        "0": { "label": "د پلورنځي کټګوري A" },
+        "1": { "label": "د پلورنځي کټګوري B" },
+        "2": { "label": "د پلورنځي کټګوري C" }
+      }
+    },
+    "support": {
+      "label": "ملاتړ",
+      "items": {
+        "0": { "label": "ډیری پوښتل شوي پوښتنې" },
+        "1": { "label": "موږ سره اړیکه ونیسئ" },
+        "2": { "label": "تضمین" }
+      }
+    },
+    "about": {
+      "label": "زموږ په اړه",
+      "items": {
+        "0": { "label": "زموږ کیسه" },
+        "1": { "label": "ټیم" },
+        "2": { "label": "دندې" }
+      }
+    },
+    "member": {
+      "label": "غړی",
+      "items": {
+        "0": { "label": "د غړیتوب پلانونه" },
+        "1": { "label": "پوائنټونه او انعامونه" },
+        "2": { "label": "ځانګړي وړاندیزونه" }
+      }
+    }
+  },
+  "member": {
+    "brief": {
+      "membershipLevel": "د غړیتوب کچه:",
+      "productDiscountRate": "د محصول د تخفیف کچه:",
+      "pointsDiscountRate": "د امتیاز تخفیف کچه:",
+      "canBeStacked": "د یوځای کېدو وړ"
+    },
+    "common": { "yes": "هو", "no": "نه" },
+    "levels": {
+      "title": "د غړیتوب کچې",
+      "header": {
+        "level": "کچه",
+        "pointsRequired": "اړین امتیازونه",
+        "productDiscount": "د محصول تخفیف",
+        "pointsDiscount": "د امتیاز تخفیف"
+      },
+      "rows": {
+        "ordinary": "عادي",
+        "bronze": "برونز",
+        "silver": "سپين زر",
+        "gold": "زر",
+        "supreme": "لوړ"
+      }
+    },
+    "points": {
+      "title": "څنګه امتیازونه ترلاسه کړو؟",
+      "invite": "نوي کاروونکي راوبلل شئ",
+      "inviteDesc": "50 امتیاز (را بلل شوی 30 امتیاز ترلاسه کوي)",
+      "consume": "پيسې",
+      "consumeDesc": "1 ډالر = 1 امتیاز",
+      "daily": "ورځنۍ ننوتل",
+      "dailyDesc": "1 امتیاز (د 30 ورځو لپاره باوري)"
+    }
+  },
+  "promo": { "memberCta": "د غړو لپاره تر ۵۰٪ پورې تخفیف" }
+}

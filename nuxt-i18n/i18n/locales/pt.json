@@ -1,0 +1,108 @@
+{
+  "welcome": "Bem-vindo",
+  "home": "Início",
+  "category": "Categoria",
+  "subcategory": "Subcategoria",
+  "search": {
+    "placeholder": "Pesquisar...",
+    "button": "Pesquisar"
+  },
+  "filters": {
+    "wheelDiameter": "Diâmetro da roda",
+    "price": "Preço",
+    "brand": "Marca",
+    "brakeStyle": "Estilo de freio",
+    "color": "Cor",
+    "all": "Tudo"
+  },
+  "user": {
+    "register": "Registrar",
+    "login": "Entrar",
+    "logout": "Sair",
+    "points": "Ponto: {count}"
+  },
+  "cta": {
+    "becomeMemb": "🎉Torne-se membro para desfrutar de até 30% de desconto🎉"
+  },
+  "auth": {
+    "registerTitle": "Registrar",
+    "loginTitle": "Entrar",
+    "username": "Nome de usuário",
+    "email": "E-mail",
+    "password": "Senha",
+    "registering": "Registrando...",
+    "loggingIn": "Entrando...",
+    "alreadyHaveAccount": "Já tem uma conta?",
+    "dontHaveAccount": "Não tem uma conta?",
+    "usernameOrEmail": "Nome de usuário ou e-mail"
+  },
+  "menu": {
+    "shop": {
+      "label": "Loja",
+      "items": {
+        "0": { "label": "Categoria A" },
+        "1": { "label": "Categoria B" },
+        "2": { "label": "Categoria C" }
+      }
+    },
+    "support": {
+      "label": "Suporte",
+      "items": {
+        "0": { "label": "Perguntas Frequentes" },
+        "1": { "label": "Entre em Contato" },
+        "2": { "label": "Garantia" }
+      }
+    },
+    "about": {
+      "label": "Sobre Nós",
+      "items": {
+        "0": { "label": "Nossa História" },
+        "1": { "label": "Equipe" },
+        "2": { "label": "Carreiras" }
+      }
+    },
+    "member": {
+      "label": "Membro",
+      "items": {
+        "0": { "label": "Planos de Associação" },
+        "1": { "label": "Pontos e Recompensas" },
+        "2": { "label": "Ofertas Exclusivas" }
+      }
+    }
+  },
+  "member": {
+    "brief": {
+      "membershipLevel": "Nível de associação:",
+      "productDiscountRate": "Taxa de desconto do produto:",
+      "pointsDiscountRate": "Taxa de desconto de pontos:",
+      "canBeStacked": "Acumulável"
+    },
+    "common": { "yes": "Sim", "no": "Não" },
+    "levels": {
+      "title": "Níveis de associação",
+      "header": {
+        "level": "Nível",
+        "pointsRequired": "Pontos necessários",
+        "productDiscount": "Desconto do produto",
+        "pointsDiscount": "Desconto de pontos"
+      },
+      "rows": {
+        "ordinary": "Comum",
+        "bronze": "Bronze",
+        "silver": "Prata",
+        "gold": "Ouro",
+        "supreme": "Supremo"
+      }
+    },
+    "points": {
+      "title": "Como obter pontos?",
+      "invite": "Convidar novos usuários",
+      "inviteDesc": "50 pontos (o convidado recebe 30 pontos)",
+      "consume": "Moeda de consumo",
+      "consumeDesc": "1 Dólar = 1 Ponto",
+      "daily": "Login diário",
+      "dailyDesc": "1 ponto (validade de 30 dias)"
+    }
+  },
+  "promo": { "memberCta": "Até 50% de desconto para membros" }
+}

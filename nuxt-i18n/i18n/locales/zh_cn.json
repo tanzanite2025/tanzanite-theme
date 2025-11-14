@@ -1,0 +1,107 @@
+{
+  "user": {
+    "memberCenter": "会员中心",
+    "register": "注册",
+    "login": "登录",
+    "logout": "登出",
+    "closeLogin": "关闭登录",
+    "points": "{count} 积分"
+  },
+  "auth": {
+    "registerTitle": "注册",
+    "loginTitle": "登录",
+    "username": "用户名",
+    "email": "邮箱",
+    "password": "密码",
+    "registering": "注册中...",
+    "loggingIn": "登录中...",
+    "alreadyHaveAccount": "已有账号？",
+    "dontHaveAccount": "还没有账号？",
+    "usernameOrEmail": "用户名或邮箱",
+    "rememberMe": "记住我"
+  },
+  "search": {
+    "placeholder": "搜索...",
+    "button": "搜索"
+  },
+  "nav": {
+    "home": "首页",
+    "shop": "商店",
+    "about": "关于我们",
+    "contact": "联系我们"
+  },
+  "menu": {
+    "shop": {
+      "label": "商店",
+      "items": {
+        "0": { "label": "商店分类 A" },
+        "1": { "label": "商店分类 B" },
+        "2": { "label": "商店分类 C" }
+      }
+    },
+    "support": {
+      "label": "支持",
+      "items": {
+        "0": { "label": "常见问题" },
+        "1": { "label": "联系我们" },
+        "2": { "label": "保修服务" }
+      }
+    },
+    "about": {
+      "label": "关于我们",
+      "items": {
+        "0": { "label": "我们的故事" },
+        "1": { "label": "团队介绍" },
+        "2": { "label": "招聘信息" }
+      }
+    },
+    "member": {
+      "label": "会员",
+      "items": {
+        "0": { "label": "会员计划" },
+        "1": { "label": "积分奖励" },
+        "2": { "label": "专属优惠" }
+      }
+    }
+  },
+  "member": {
+    "brief": {
+      "membershipLevel": "会员等级：",
+      "productDiscountRate": "商品折扣率：",
+      "pointsDiscountRate": "积分折扣率：",
+      "canBeStacked": "可叠加"
+    },
+    "common": {
+      "yes": "是",
+      "no": "否"
+    },
+    "levels": {
+      "title": "会员等级",
+      "header": {
+        "level": "等级",
+        "pointsRequired": "所需积分",
+        "productDiscount": "商品折扣",
+        "pointsDiscount": "积分折扣"
+      },
+      "rows": {
+        "ordinary": "普通会员",
+        "bronze": "青铜会员",
+        "silver": "白银会员",
+        "gold": "黄金会员",
+        "supreme": "至尊会员"
+      }
+    },
+    "points": {
+      "title": "如何获得积分？",
+      "invite": "邀请新用户",
+      "inviteDesc": "邀请成功奖励 50 积分（被邀请者 30 积分）",
+      "consume": "消费换积分",
+      "consumeDesc": "1 美元 = 1 积分",
+      "daily": "每日登录",
+      "dailyDesc": "每日登录奖励 1 积分（有效期 30 天）"
+    }
+  },
+  "promo": {
+    "memberCta": "会员最高享受 50% 折扣"
+  }
+}

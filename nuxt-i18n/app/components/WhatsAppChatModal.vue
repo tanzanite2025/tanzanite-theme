@@ -1,0 +1,949 @@
+<template>
+  <Teleport to="body">
+    <!-- 遮罩层 -->
+    <Transition name="fade">
+      <div
+        v-if="conversation"
+        class="fixed inset-0 bg-black z-[9999] flex items-center justify-center p-4"
+        @click.self="handleClose"
+      >
+        <!-- 聊天窗口 - 三栏布局 -->
+        <Transition name="slide-up">
+          <div
+            v-if="conversation"
+            class="bg-black border border-[#6e6ee9] rounded-2xl max-w-[1400px] w-full h-[90vh] md:h-[700px] max-h-[85vh] overflow-hidden shadow-2xl flex flex-row"
+          >
+            <!-- 左侧：客服列表(窄栏 200px) - 移动端隐藏 -->
+            <div class="hidden md:flex w-[200px] min-w-[200px] max-w-[200px] border-r border-white/10 flex-col bg-black">
+              <!-- 客服列表标题 -->
+              <div class="px-4 py-4 border-b border-white/10">
+                <h3 class="font-semibold text-sm bg-gradient-to-r from-[#40ffaa] to-[#6b73ff] bg-clip-text text-transparent">Agents</h3>
+              </div>
+              
+              <!-- 客服列表 -->
+              <div class="flex-1 overflow-y-auto">
+                <div v-if="isLoadingAgents" class="flex items-center justify-center py-8">
+                  <svg class="animate-spin h-6 w-6 text-white/50" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                </div>
+                
+                <div
+                  v-for="agent in agents"
+                  :key="agent.id"
+                  @click="selectAgent(agent)"
+                  class="px-3 py-3 cursor-pointer transition-colors border-b border-white/5"
+                  :class="selectedAgent?.id === agent.id 
+                    ? 'bg-[#6b73ff]/20 border-l-2 border-l-[#6b73ff]' 
+                    : 'hover:bg-white/5'"
+                >
+                  <div class="flex items-center gap-2">
+                    <!-- 头像 -->
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#40ffaa] to-[#6b73ff] flex items-center justify-center text-white font-semibold text-xs flex-shrink-0">
+                      <img
+                        v-if="agent.avatar"
+                        :src="agent.avatar"
+                        :alt="agent.name"
+                        class="w-full h-full rounded-full object-cover"
+                      />
+                      <span v-else>{{ getInitials(agent.name) }}</span>
+                    </div>
+                    
+                    <!-- 信息 -->
+                    <div class="flex-1 min-w-0">
+                      <div class="text-white text-sm font-medium truncate">
+                        {{ agent.name }}
+                      </div>
+                      <div class="text-white/50 text-xs truncate">
+                        {{ agent.email }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div v-if="!isLoadingAgents && agents.length === 0" class="text-center text-white/50 py-8 text-sm">
+                  No agents available
+                </div>
+              </div>
+            </div>
+
+            <!-- 中间：聊天区域(主栏) -->
+            <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+              <!-- 头部 -->
+              <div class="flex items-center justify-between px-4 md:px-6 py-3 md:py-4 border-b border-white/10">
+                <div class="flex items-center gap-3 flex-1 min-w-0">
+                  <!-- 移动端：客服选择下拉菜单 -->
+                  <div v-if="selectedAgent" class="md:hidden flex-1 min-w-0">
+                    <select
+                      v-model="selectedAgent.id"
+                      @change="handleAgentChange"
+                      class="w-full px-3 py-2 bg-white/[0.08] text-white border border-white/20 rounded-lg text-sm focus:outline-none focus:border-[#6b73ff]"
+                    >
+                      <option v-for="agent in agents" :key="agent.id" :value="agent.id" class="bg-black">
+                        {{ agent.name }}
+                      </option>
+                    </select>
+                  </div>
+                  
+                  <!-- 桌面端：当前选中的客服信息 -->
+                  <div v-if="selectedAgent" class="hidden md:flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#40ffaa] to-[#6b73ff] flex items-center justify-center text-white font-semibold">
+                      <img
+                        v-if="selectedAgent.avatar"
+                        :src="selectedAgent.avatar"
+                        :alt="selectedAgent.name"
+                        class="w-full h-full rounded-full object-cover"
+                      />
+                      <span v-else>{{ getInitials(selectedAgent.name) }}</span>
+                    </div>
+                    
+                    <div>
+                      <h2 class="text-lg font-bold text-white">
+                        {{ selectedAgent.name }}
+                      </h2>
+                      <p class="text-xs text-white/70">
+                        {{ selectedAgent.email }}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div v-else class="text-white/50 text-sm">
+                    Select an agent to start chat
+                  </div>
+                </div>
+                
+                <button
+                  @click="handleClose"
+                  class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
+                  aria-label="Close"
+                >
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- 标签切换 -->
+              <div class="flex gap-1.5 md:gap-2 justify-center py-2 md:py-3 border-b border-white/10 px-2">
+              <button
+                @click="activeTab = 'chat'"
+                class="px-3 md:px-4 py-1.5 rounded-full text-xs md:text-sm transition-all flex-1 md:flex-none"
+                :class="activeTab === 'chat' 
+                  ? 'bg-gradient-to-r from-[#40ffaa] to-[#6b73ff] text-white' 
+                  : 'bg-white/[0.08] text-white/70 border border-white/20 hover:bg-white/[0.15]'"
+              >
+                Chat
+              </button>
+              <button
+                @click="activeTab = 'share'"
+                class="px-3 md:px-4 py-1.5 rounded-full text-xs md:text-sm transition-all flex-1 md:flex-none whitespace-nowrap"
+                :class="activeTab === 'share' 
+                  ? 'bg-gradient-to-r from-[#40ffaa] to-[#6b73ff] text-white' 
+                  : 'bg-white/[0.08] text-white/70 border border-white/20 hover:bg-white/[0.15]'"
+              >
+                <span class="hidden md:inline">Share Products</span>
+                <span class="md:hidden">Products</span>
+              </button>
+              <button
+                @click="activeTab = 'orders'"
+                class="px-3 md:px-4 py-1.5 rounded-full text-xs md:text-sm transition-all flex-1 md:flex-none whitespace-nowrap"
+                :class="activeTab === 'orders' 
+                  ? 'bg-gradient-to-r from-[#40ffaa] to-[#6b73ff] text-white' 
+                  : 'bg-white/[0.08] text-white/70 border border-white/20 hover:bg-white/[0.15]'"
+              >
+                <span class="hidden md:inline">My Orders</span>
+                <span class="md:hidden">Orders</span>
+              </button>
+              </div>
+
+              <!-- 即时聊天标签 -->
+              <div v-if="activeTab === 'chat'" ref="messagesContainer" class="flex-1 overflow-y-auto p-3 md:p-6 space-y-3 md:space-y-4">
+              <div v-if="messages.length === 0" class="flex flex-col items-center justify-center h-full">
+                <svg class="w-16 h-16 text-white/30 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                <p class="text-white/50">No messages yet</p>
+              </div>
+
+              <div
+                v-for="message in messages"
+                :key="message.id"
+                class="flex"
+                :class="message.is_agent ? 'justify-end' : 'justify-start'"
+              >
+                <!-- 卡片消息（商品/订单）-->
+                <a
+                  v-if="message.type === 'card'"
+                  :href="message.url || '#'"
+                  target="_blank"
+                  rel="noopener"
+                  class="flex gap-2.5 p-2 border border-white/[0.18] rounded-[10px] bg-white/[0.06] hover:bg-white/[0.10] transition-colors max-w-[70%]"
+                >
+                  <img
+                    v-if="message.thumbnail"
+                    :src="message.thumbnail"
+                    alt="缩略图"
+                    class="w-14 h-14 object-cover rounded-lg"
+                  />
+                  <div class="text-sm text-white">{{ message.title || message.message }}</div>
+                </a>
+                
+                <!-- 普通文本消息 -->
+                <div
+                  v-else
+                  class="max-w-[70%] rounded-xl px-3 py-2 text-white"
+                  :class="message.is_agent 
+                    ? 'bg-[rgba(64,255,170,0.2)] border border-[rgba(64,255,170,0.4)]' 
+                    : 'bg-[rgba(64,122,255,0.2)] border border-[rgba(64,122,255,0.4)]'"
+                >
+                  <!-- 发送者名称 -->
+                  <div class="text-xs mb-1 opacity-70">
+                    {{ message.is_agent ? 'Agent' : message.sender_name }}
+                  </div>
+                  
+                  <!-- 消息内容 -->
+                  <div class="text-sm whitespace-pre-wrap break-words">
+                    {{ message.message }}
+                  </div>
+                  
+                  <!-- 附件 -->
+                  <div v-if="message.attachment_url" class="mt-2">
+                    <img
+                      :src="message.attachment_url"
+                      alt="附件"
+                      class="max-w-full rounded-lg"
+                    />
+                  </div>
+                  
+                  <!-- 时间 -->
+                  <div class="text-xs mt-1 opacity-60">
+                    {{ formatMessageTime(message.created_at) }}
+                  </div>
+                </div>
+              </div>
+              </div>
+
+              <!-- 商品分享标签 -->
+              <div v-if="activeTab === 'share'" class="flex-1 overflow-y-auto p-3 md:p-6">
+                <!-- 搜索框 -->
+                <div class="flex gap-2 mb-4 items-center">
+                  <input
+                    v-model="searchQuery"
+                    type="text"
+                    placeholder="Search products..."
+                    class="flex-1 h-[42px] px-3 rounded-lg bg-white/[0.06] text-white border border-white/[0.18] focus:outline-none focus:border-[#6b73ff] transition-colors text-sm"
+                    @keydown.enter.prevent="searchProducts"
+                  />
+                  <button
+                    @click="searchProducts"
+                    :disabled="isSearching"
+                    class="h-[42px] px-3 md:px-4 bg-white/[0.08] hover:bg-white/[0.15] text-white border border-white/20 rounded-lg transition-colors disabled:opacity-50 whitespace-nowrap text-sm"
+                  >
+                    {{ isSearching ? 'Searching...' : 'Search' }}
+                  </button>
+                </div>
+
+                <!-- 商品列表 -->
+                <div v-if="searchResults.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div
+                    v-for="product in searchResults"
+                    :key="product.id"
+                    @click="shareProductToChat(product)"
+                    class="border border-white/10 rounded-lg p-3 hover:bg-white/[0.05] cursor-pointer transition-colors"
+                  >
+                    <img
+                      v-if="product.thumbnail"
+                      :src="product.thumbnail"
+                      alt="商品图片"
+                      class="w-full h-32 object-cover rounded-lg mb-2"
+                    />
+                    <h4 class="text-white text-sm font-medium truncate">{{ product.title }}</h4>
+                    <p v-if="product.price" class="text-white/70 text-xs mt-1">{{ product.price }}</p>
+                  </div>
+                </div>
+                <div v-else-if="!isSearching && searchQuery" class="text-center text-white/50 py-12">
+                  No products found
+                </div>
+                <div v-else-if="!isSearching" class="text-center text-white/50 py-12">
+                  Search products to share in chat
+                </div>
+              </div>
+
+              <!-- 我的订单标签 -->
+              <div v-if="activeTab === 'orders'" class="flex-1 overflow-y-auto p-3 md:p-6">
+              <div v-if="isLoadingOrders" class="text-center text-white/50 py-12">
+                Loading orders...
+              </div>
+              <div v-else-if="ordersList.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div
+                  v-for="order in ordersList"
+                  :key="order.id"
+                  @click="shareOrderToChat(order)"
+                  class="border border-white/10 rounded-lg p-3 hover:bg-white/[0.05] cursor-pointer transition-colors"
+                >
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-white text-sm font-medium">Order #{{ order.id }}</span>
+                    <span class="text-xs px-2 py-0.5 rounded-full bg-white/10 text-white/70">
+                      {{ order.status || 'Processing' }}
+                    </span>
+                  </div>
+                  <p class="text-white/70 text-xs">{{ order.total }} {{ order.currency || '' }}</p>
+                  <p class="text-white/50 text-xs mt-1">{{ order.date }}</p>
+                </div>
+              </div>
+              <div v-else class="text-center text-white/50 py-12">
+                No orders yet
+              </div>
+              </div>
+
+              <!-- 输入框（仅在聊天标签显示）-->
+              <div v-if="activeTab === 'chat'" class="border-t border-white/10 p-2 md:p-4">
+                <form @submit.prevent="handleSendMessage" class="flex gap-1.5 md:gap-2">
+                  <input
+                    v-model="newMessage"
+                    type="text"
+                    placeholder="Type a message..."
+                    class="flex-1 px-3 py-2 md:py-2.5 bg-white/[0.06] text-white border border-white/[0.18] rounded-lg focus:outline-none focus:border-[#6b73ff] transition-colors text-sm md:text-base"
+                    :disabled="isSending"
+                  />
+                  
+                  <!-- 图片上传按钮 -->
+                  <input
+                    ref="imageInput"
+                    type="file"
+                    accept="image/*"
+                    class="hidden"
+                    @change="handleImageUpload"
+                  />
+                  <button
+                    type="button"
+                    @click="imageInput?.click()"
+                    :disabled="isUploadingImage"
+                    class="px-2.5 py-2 md:px-3 md:py-2.5 bg-white/[0.08] hover:bg-white/[0.15] text-white border border-white/20 rounded-lg transition-colors disabled:opacity-50 flex-shrink-0"
+                    title="Upload image"
+                  >
+                    <svg v-if="!isUploadingImage" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    <svg v-else class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                  </button>
+                  
+                  <button
+                    type="submit"
+                    :disabled="!newMessage.trim() || isSending"
+                    class="px-3 py-2 md:px-6 md:py-2.5 bg-[#6b73ff] hover:bg-[#5d65e8] text-white rounded-lg transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base flex-shrink-0"
+                  >
+                    <span v-if="!isSending">Send</span>
+                    <span v-else class="flex items-center gap-2">
+                      <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Sending...
+                    </span>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </Transition>
+      </div>
+    </Transition>
+  </Teleport>
+</template>
+
+<script setup lang="ts">
+import { ref, watch, nextTick, computed } from 'vue'
+import { useAuth } from '~/composables/useAuth'
+
+// Props - 现在不需要预先传入conversation
+const props = defineProps<{
+  conversation?: {
+    showAgentList?: boolean
+  }
+}>()
+
+// Emits
+const emit = defineEmits<{
+  close: []
+}>()
+
+const { user } = useAuth()
+const config = useRuntimeConfig()
+
+// 客服列表和选中状态
+const agents = ref<any[]>([])
+const selectedAgent = ref<any>(null)
+const isLoadingAgents = ref(false)
+
+const activeTab = ref<'chat' | 'share' | 'orders'>('chat')
+const newMessage = ref('')
+const isSending = ref(false)
+const messagesContainer = ref<HTMLElement | null>(null)
+
+// 图片上传
+const imageInput = ref<HTMLInputElement | null>(null)
+const isUploadingImage = ref(false)
+
+// 生成会话ID（基于访客标识）
+const conversationId = computed(() => {
+  if (user.value) {
+    return `user_${user.value.id}`
+  }
+  // 访客使用 localStorage 中的唯一ID
+  let visitorId = localStorage.getItem('tz_visitor_id')
+  if (!visitorId) {
+    visitorId = `visitor_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+    localStorage.setItem('tz_visitor_id', visitorId)
+  }
+  return visitorId
+})
+
+// 消息列表
+const messages = ref<any[]>([])
+
+// LocalStorage 键名
+const STORAGE_KEY = computed(() => `tz_chat_${conversationId.value}`)
+const STORAGE_EXPIRY_DAYS = 5
+
+// 商品搜索
+const searchQuery = ref('')
+const isSearching = ref(false)
+const searchResults = ref<any[]>([])
+
+// 订单列表
+const isLoadingOrders = ref(false)
+const ordersList = ref<any[]>([])
+
+// 是否显示"我的订单"标签
+// 访客不显示，已登录用户显示
+const shouldShowOrders = computed(() => {
+  return !!user.value
+})
+
+// 关闭弹窗
+const handleClose = () => {
+  emit('close')
+}
+
+// WhatsApp 链接
+const whatsappLink = computed(() => {
+  if (!props.conversation?.email) return ''
+  // 可以根据 email 生成 WhatsApp 链接，或者从客服信息中获取电话号码
+  return ''
+})
+
+// 获取状态文本
+const getStatusText = (status: string) => {
+  const statusMap: Record<string, string> = {
+    active: '在线',
+    closed: '已关闭',
+    pending: '待处理'
+  }
+  return statusMap[status] || status
+}
+
+// 格式化消息时间
+const formatMessageTime = (time: string) => {
+  const date = new Date(time)
+  return date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })
+}
+
+// 滚动到底部
+const scrollToBottom = () => {
+  nextTick(() => {
+    if (messagesContainer.value) {
+      messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
+    }
+  })
+}
+
+// 监听消息变化，自动滚动到底部
+watch(messages, () => {
+  scrollToBottom()
+}, { deep: true })
+
+// 组件挂载时加载消息
+onMounted(() => {
+  loadMessagesFromStorage()
+  scrollToBottom()
+})
+
+// 从 localStorage 加载消息
+const loadMessagesFromStorage = () => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY.value)
+    if (stored) {
+      const data = JSON.parse(stored)
+      const now = Date.now()
+      const expiryTime = STORAGE_EXPIRY_DAYS * 24 * 60 * 60 * 1000
+      
+      // 过滤掉超过5天的消息
+      const validMessages = data.messages.filter((msg: any) => {
+        const msgTime = new Date(msg.created_at).getTime()
+        return (now - msgTime) < expiryTime
+      })
+      
+      messages.value = validMessages
+      
+      // 更新 localStorage
+      if (validMessages.length !== data.messages.length) {
+        saveMessagesToStorage()
+      }
+    }
+  } catch (error) {
+    console.error('加载消息失败:', error)
+  }
+}
+
+// 保存消息到 localStorage
+const saveMessagesToStorage = () => {
+  try {
+    localStorage.setItem(STORAGE_KEY.value, JSON.stringify({
+      messages: messages.value,
+      lastUpdated: new Date().toISOString()
+    }))
+  } catch (error) {
+    console.error('保存消息失败:', error)
+  }
+}
+
+// 发送消息到后端 API
+const sendMessageToAPI = async (messageData: any) => {
+  try {
+    const response = await $fetch('/wp-json/tanzanite/v1/customer-service/messages', {
+      method: 'POST',
+      body: {
+        conversation_id: conversationId.value,
+        message: messageData.message,
+        sender_type: user.value ? 'user' : 'visitor',
+        sender_name: user.value?.display_name || '访客',
+        sender_email: user.value?.email || '',
+        agent_id: props.conversation?.id || '',
+        message_type: messageData.message_type || 'text',
+        metadata: messageData.metadata || null
+      }
+    })
+    return response
+  } catch (error) {
+    console.error('发送消息到API失败:', error)
+    throw error
+  }
+}
+
+// 发送消息
+const handleSendMessage = async () => {
+  if (!newMessage.value.trim() || !props.conversation || isSending.value) {
+    return
+  }
+
+  isSending.value = true
+  const messageText = newMessage.value
+  newMessage.value = ''
+
+  const messageData = {
+    id: Date.now(),
+    conversation_id: conversationId.value,
+    sender_id: user.value?.id || 0,
+    sender_name: user.value?.display_name || '访客',
+    sender_email: user.value?.email || '',
+    message: messageText,
+    message_type: 'text',
+    created_at: new Date().toISOString(),
+    is_agent: false
+  }
+
+  try {
+    // 1. 先添加到本地显示
+    messages.value.push(messageData)
+    scrollToBottom()
+    
+    // 2. 保存到 localStorage
+    saveMessagesToStorage()
+    
+    // 3. 发送到后端 API（实时存储）
+    await sendMessageToAPI(messageData)
+    
+    // 4. 检查关键词自动回复
+    await checkAutoReply(messageText)
+  } catch (error) {
+    // 如果 API 失败，消息仍然保存在 localStorage 中
+    console.error('发送失败', error)
+    // 可以添加重试逻辑或提示用户
+  } finally {
+    isSending.value = false
+  }
+}
+
+// 检查关键词自动回复
+const checkAutoReply = async (userMessage: string) => {
+  try {
+    const response = await $fetch<any>('/wp-json/tanzanite/v1/auto-reply/match', {
+      method: 'POST',
+      body: {
+        message: userMessage,
+        conversation_id: conversationId.value
+      }
+    })
+    
+    if (response.success && response.data.reply) {
+      // 延迟 500ms 模拟真实回复
+      setTimeout(() => {
+        messages.value.push({
+          id: Date.now(),
+          conversation_id: conversationId.value,
+          sender_id: 0,
+          sender_name: 'Auto Reply',
+          sender_email: '',
+          message: response.data.reply,
+          message_type: 'text',
+          created_at: new Date().toISOString(),
+          is_agent: true
+        })
+        
+        saveMessagesToStorage()
+        scrollToBottom()
+      }, 500)
+    }
+  } catch (error) {
+    console.error('自动回复检查失败', error)
+  }
+}
+
+// 搜索商品
+const searchProducts = async () => {
+  if (!searchQuery.value.trim()) {
+    searchResults.value = []
+    return
+  }
+
+  isSearching.value = true
+  try {
+    const response = await $fetch<any>('/wp-json/tanzanite/v1/products', {
+      params: {
+        keyword: searchQuery.value,
+        per_page: 20,
+        status: 'publish'
+      },
+      credentials: 'include'
+    })
+    
+    // 转换数据格式以适配前端显示
+    if (response && Array.isArray(response.items)) {
+      searchResults.value = response.items.map((item: any) => ({
+        id: item.id,
+        title: item.title,
+        url: item.preview_url || `/product/${item.slug || item.id}`,
+        thumbnail: item.thumbnail,
+        price: item.prices?.sale > 0 
+          ? `$${item.prices.sale}` 
+          : (item.prices?.regular > 0 ? `$${item.prices.regular}` : '')
+      }))
+    } else {
+      searchResults.value = []
+    }
+  } catch (error) {
+    console.error('搜索失败:', error)
+    searchResults.value = []
+  } finally {
+    isSearching.value = false
+  }
+}
+
+// 分享商品到聊天
+const shareProductToChat = async (product: any) => {
+  if (!props.conversation || isSending.value) return
+  
+  isSending.value = true
+  
+  const messageData = {
+    id: Date.now(),
+    conversation_id: conversationId.value,
+    sender_id: user.value?.id || 0,
+    sender_name: user.value?.display_name || '访客',
+    sender_email: user.value?.email || '',
+    message: product.title || '商品',
+    message_type: 'product',
+    metadata: {
+      title: product.title,
+      url: product.url,
+      thumbnail: product.thumbnail,
+      price: product.price
+    },
+    created_at: new Date().toISOString(),
+    is_agent: false
+  }
+  
+  try {
+    messages.value.push(messageData)
+    saveMessagesToStorage()
+    await sendMessageToAPI(messageData)
+    activeTab.value = 'chat'
+    scrollToBottom()
+  } catch (error) {
+    console.error('分享商品失败:', error)
+  } finally {
+    isSending.value = false
+  }
+}
+
+// 加载订单列表
+const loadOrders = async () => {
+  isLoadingOrders.value = true
+  try {
+    const response = await $fetch<any>('/wp-json/mytheme-vue/v1/my-orders', {
+      params: { limit: 10 },
+      credentials: 'include'
+    })
+    ordersList.value = Array.isArray(response) ? response : []
+  } catch (error) {
+    console.error('加载订单失败:', error)
+    ordersList.value = []
+  } finally {
+    isLoadingOrders.value = false
+  }
+}
+
+// 分享订单到聊天
+const shareOrderToChat = async (order: any) => {
+  if (!props.conversation || isSending.value) return
+  
+  isSending.value = true
+  
+  const messageData = {
+    id: Date.now(),
+    conversation_id: conversationId.value,
+    sender_id: user.value?.id || 0,
+    sender_name: user.value?.display_name || '访客',
+    sender_email: user.value?.email || '',
+    message: `订单 #${order.id}`,
+    message_type: 'order',
+    metadata: {
+      order_id: order.id,
+      title: `订单 #${order.id}`,
+      total: order.total,
+      currency: order.currency,
+      url: order.url,
+      thumbnail: order.thumbnail
+    },
+    created_at: new Date().toISOString(),
+    is_agent: false
+  }
+  
+  try {
+    messages.value.push(messageData)
+    saveMessagesToStorage()
+    await sendMessageToAPI(messageData)
+    activeTab.value = 'chat'
+    scrollToBottom()
+  } catch (error) {
+    console.error('分享订单失败:', error)
+  } finally {
+    isSending.value = false
+  }
+}
+
+// 获取客服列表
+const fetchAgents = async () => {
+  isLoadingAgents.value = true
+  try {
+    const response = await $fetch<any>('/wp-json/tanzanite/v1/customer-service/agents')
+    if (response.success && response.data) {
+      agents.value = response.data
+      // 默认选择第一个客服
+      if (agents.value.length > 0 && !selectedAgent.value) {
+        selectedAgent.value = agents.value[0]
+        // 加载该客服的聊天记录
+        loadMessagesFromStorage()
+        // 发送欢迎语
+        await sendWelcomeMessage()
+      }
+    }
+  } catch (error) {
+    console.error('获取客服列表失败:', error)
+  } finally {
+    isLoadingAgents.value = false
+  }
+}
+
+// 发送欢迎语
+const sendWelcomeMessage = async () => {
+  try {
+    const response = await $fetch<any>('/wp-json/tanzanite/v1/auto-reply/welcome', {
+      params: {
+        conversation_id: conversationId.value
+      }
+    })
+    
+    if (response.success && response.data.message && !response.data.already_sent) {
+      // 添加欢迎消息到消息列表
+      messages.value.push({
+        id: Date.now(),
+        conversation_id: conversationId.value,
+        sender_id: 0,
+        sender_name: 'System',
+        sender_email: '',
+        message: response.data.message,
+        message_type: 'text',
+        created_at: new Date().toISOString(),
+        is_agent: true
+      })
+      
+      saveMessagesToStorage()
+      scrollToBottom()
+    }
+  } catch (error) {
+    console.error('发送欢迎语失败:', error)
+  }
+}
+
+// 选择客服
+const selectAgent = (agent: any) => {
+  selectedAgent.value = agent
+  // 切换客服时加载对应的聊天记录
+  loadMessagesFromStorage()
+  scrollToBottom()
+}
+
+// 处理移动端下拉菜单切换客服
+const handleAgentChange = (event: Event) => {
+  const agentId = parseInt((event.target as HTMLSelectElement).value)
+  const agent = agents.value.find(a => a.id === agentId)
+  if (agent) {
+    selectAgent(agent)
+  }
+}
+
+// 获取首字母
+const getInitials = (name: string) => {
+  if (!name) return '?'
+  const parts = name.split(' ')
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase()
+  }
+  return name.substring(0, 2).toUpperCase()
+}
+
+// 监听标签切换，自动加载订单
+watch(activeTab, (newTab) => {
+  if (newTab === 'orders' && ordersList.value.length === 0 && !isLoadingOrders.value) {
+    loadOrders()
+  }
+})
+
+// 图片上传处理
+const handleImageUpload = async (event: Event) => {
+  const target = event.target as HTMLInputElement
+  const file = target.files?.[0]
+  
+  if (!file) return
+  
+  // 检查文件大小（限制5MB）
+  if (file.size > 5 * 1024 * 1024) {
+    alert('图片大小不能超过 5MB')
+    return
+  }
+  
+  isUploadingImage.value = true
+  
+  try {
+    // TODO: 实现图片上传到服务器
+    // 这里暂时使用 FileReader 转为 base64
+    const reader = new FileReader()
+    reader.onload = async (e) => {
+      const imageUrl = e.target?.result as string
+      
+      // 创建图片消息
+      const messageData = {
+        id: Date.now(),
+        conversation_id: conversationId.value,
+        sender_id: user.value?.id || 0,
+        sender_name: user.value?.display_name || '访客',
+        sender_email: user.value?.email || '',
+        message: '[图片]',
+        message_type: 'image',
+        attachment_url: imageUrl,
+        created_at: new Date().toISOString(),
+        is_agent: false
+      }
+      
+      // 添加到消息列表
+      messages.value.push(messageData)
+      saveMessagesToStorage()
+      scrollToBottom()
+      
+      // 发送到后端
+      try {
+        await sendMessageToAPI(messageData)
+      } catch (error) {
+        console.error('发送图片失败', error)
+      }
+    }
+    
+    reader.readAsDataURL(file)
+  } catch (error) {
+    console.error('上传图片失败:', error)
+    alert('上传失败，请重试')
+  } finally {
+    isUploadingImage.value = false
+    // 清空文件选择
+    if (target) {
+      target.value = ''
+    }
+  }
+}
+
+// 组件挂载时获取客服列表
+onMounted(() => {
+  fetchAgents()
+  scrollToBottom()
+})
+</script>
+
+<style scoped>
+/* 淡入淡出动画 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* 滑入动画 */
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* 自定义滚动条 */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+</style>

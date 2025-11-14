@@ -1,0 +1,108 @@
+{
+  "welcome": "Velkommen",
+  "home": "Hjem",
+  "category": "Kategori",
+  "subcategory": "Underkategori",
+  "search": {
+    "placeholder": "Søg...",
+    "button": "Søg"
+  },
+  "filters": {
+    "wheelDiameter": "Hjuldiameter",
+    "price": "Pris",
+    "brand": "Mærke",
+    "brakeStyle": "Bremsestil",
+    "color": "Farve",
+    "all": "Alle"
+  },
+  "user": {
+    "register": "Tilmeld",
+    "login": "Log ind",
+    "logout": "Log ud",
+    "points": "Point: {count}"
+  },
+  "cta": {
+    "becomeMemb": "🎉Bliv medlem og få op til 30% rabat🎉"
+  },
+  "auth": {
+    "registerTitle": "Tilmeld",
+    "loginTitle": "Log ind",
+    "username": "Brugernavn",
+    "email": "E-mail",
+    "password": "Adgangskode",
+    "registering": "Tilmelder...",
+    "loggingIn": "Logger ind...",
+    "alreadyHaveAccount": "Har du allerede en konto?",
+    "dontHaveAccount": "Har du ikke en konto?",
+    "usernameOrEmail": "Brugernavn eller e-mail"
+  },
+  "menu": {
+    "shop": {
+      "label": "Butik",
+      "items": {
+        "0": { "label": "Kategori A" },
+        "1": { "label": "Kategori B" },
+        "2": { "label": "Kategori C" }
+      }
+    },
+    "support": {
+      "label": "Support",
+      "items": {
+        "0": { "label": "FAQ" },
+        "1": { "label": "Kontakt os" },
+        "2": { "label": "Garanti" }
+      }
+    },
+    "about": {
+      "label": "Om os",
+      "items": {
+        "0": { "label": "Vores historie" },
+        "1": { "label": "Team" },
+        "2": { "label": "Karriere" }
+      }
+    },
+    "member": {
+      "label": "Medlem",
+      "items": {
+        "0": { "label": "Medlemsplaner" },
+        "1": { "label": "Point og belønninger" },
+        "2": { "label": "Eksklusive Tilbud" }
+      }
+    }
+  },
+  "member": {
+    "brief": {
+      "membershipLevel": "Medlemsniveau:",
+      "productDiscountRate": "Produktrabatsats:",
+      "pointsDiscountRate": "Point-rabatsats:",
+      "canBeStacked": "Kan stables"
+    },
+    "common": { "yes": "Ja", "no": "Nej" },
+    "levels": {
+      "title": "Medlemsniveauer",
+      "header": {
+        "level": "Niveau",
+        "pointsRequired": "Påkrævede point",
+        "productDiscount": "Produktrabat",
+        "pointsDiscount": "Pointrabat"
+      },
+      "rows": {
+        "ordinary": "Almindelig",
+        "bronze": "Bronze",
+        "silver": "Sølv",
+        "gold": "Guld",
+        "supreme": "Supreme"
+      }
+    },
+    "points": {
+      "title": "Hvordan får man point?",
+      "invite": "Invitér nye brugere",
+      "inviteDesc": "50 point (den inviterede får 30 point)",
+      "consume": "Valuta",
+      "consumeDesc": "1 Dollar = 1 Point",
+      "daily": "Daglig login",
+      "dailyDesc": "1 point (gyldig i 30 dage)"
+    }
+  },
+  "promo": { "memberCta": "Op til 50% rabat for medlemmer" }
+}

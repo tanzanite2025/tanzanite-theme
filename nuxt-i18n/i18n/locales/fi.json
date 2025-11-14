@@ -1,0 +1,108 @@
+{
+  "welcome": "Tervetuloa",
+  "home": "Koti",
+  "category": "Kategoria",
+  "subcategory": "Alakategoria",
+  "search": {
+    "placeholder": "Hae...",
+    "button": "Hae"
+  },
+  "filters": {
+    "wheelDiameter": "Pyörän halkaisija",
+    "price": "Hinta",
+    "brand": "Merkki",
+    "brakeStyle": "Jarrutyyli",
+    "color": "Väri",
+    "all": "Kaikki"
+  },
+  "user": {
+    "register": "Rekisteröidy",
+    "login": "Kirjaudu",
+    "logout": "Kirjaudu ulos",
+    "points": "Pisteet: {count}"
+  },
+  "cta": {
+    "becomeMemb": "🎉Liity jäseneksi ja nauti jopa 30% alennuksesta🎉"
+  },
+  "auth": {
+    "registerTitle": "Rekisteröidy",
+    "loginTitle": "Kirjaudu",
+    "username": "Käyttäjänimi",
+    "email": "Sähköposti",
+    "password": "Salasana",
+    "registering": "Rekisteröidään...",
+    "loggingIn": "Kirjaudutaan...",
+    "alreadyHaveAccount": "Onko sinulla jo tili?",
+    "dontHaveAccount": "Eikö sinulla ole tiliä?",
+    "usernameOrEmail": "Käyttäjänimi tai sähköposti"
+  },
+  "menu": {
+    "shop": {
+      "label": "Kauppa",
+      "items": {
+        "0": { "label": "Kategoria A" },
+        "1": { "label": "Kategoria B" },
+        "2": { "label": "Kategoria C" }
+      }
+    },
+    "support": {
+      "label": "Tuki",
+      "items": {
+        "0": { "label": "UKK" },
+        "1": { "label": "Ota yhteyttä" },
+        "2": { "label": "Takuu" }
+      }
+    },
+    "about": {
+      "label": "Tietoa meistä",
+      "items": {
+        "0": { "label": "Tarinmme" },
+        "1": { "label": "Tiimi" },
+        "2": { "label": "Urat" }
+      }
+    },
+    "member": {
+      "label": "Jäsen",
+      "items": {
+        "0": { "label": "Jäsensuunnitelmat" },
+        "1": { "label": "Pisteet ja palkinnot" },
+        "2": { "label": "Eksklusiiviset tarjoukset" }
+      }
+    }
+  },
+  "member": {
+    "brief": {
+      "membershipLevel": "Jäsenyystaso:",
+      "productDiscountRate": "Tuotealennusprosentti:",
+      "pointsDiscountRate": "Pistealennusprosentti:",
+      "canBeStacked": "Yhdistettävissä"
+    },
+    "common": { "yes": "Kyllä", "no": "Ei" },
+    "levels": {
+      "title": "Jäsenyystasot",
+      "header": {
+        "level": "Taso",
+        "pointsRequired": "Vaaditut pisteet",
+        "productDiscount": "Tuotealennus",
+        "pointsDiscount": "Pistealennus"
+      },
+      "rows": {
+        "ordinary": "Tavallinen",
+        "bronze": "Pronssi",
+        "silver": "Hopea",
+        "gold": "Kulta",
+        "supreme": "Ylin"
+      }
+    },
+    "points": {
+      "title": "Miten saada pisteitä?",
+      "invite": "Kutsu uusia käyttäjiä",
+      "inviteDesc": "50 pistettä (kutsuttu saa 30 pistettä)",
+      "consume": "Valuutta",
+      "consumeDesc": "1 dollari = 1 piste",
+      "daily": "Päivittäinen kirjautuminen",
+      "dailyDesc": "1 piste (voimassa 30 päivää)"
+    }
+  },
+  "promo": { "memberCta": "Jopa 50 % alennus jäsenille" }
+}

@@ -1,0 +1,102 @@
+{
+  "user": {
+    "memberCenter": "Pusat Anggota",
+    "register": "Daftar",
+    "login": "Masuk",
+    "logout": "Keluar",
+    "closeLogin": "Tutup Login",
+    "points": "{count} poin"
+  },
+  "auth": {
+    "registerTitle": "Daftar",
+    "loginTitle": "Masuk",
+    "username": "Nama Pengguna",
+    "email": "Email",
+    "password": "Kata Sandi",
+    "registering": "Mendaftar...",
+    "loggingIn": "Masuk...",
+    "alreadyHaveAccount": "Sudah punya akun?",
+    "dontHaveAccount": "Belum punya akun?",
+    "usernameOrEmail": "Nama Pengguna atau Email",
+    "rememberMe": "Ingat saya"
+  },
+  "search": {
+    "placeholder": "Cari...",
+    "button": "Cari"
+  },
+  "nav": {
+    "home": "Beranda",
+    "shop": "Toko",
+    "about": "Tentang Kami",
+    "contact": "Kontak"
+  },
+  "menu": {
+    "shop": {
+      "label": "Toko",
+      "items": {
+        "0": { "label": "Kategori Toko A" },
+        "1": { "label": "Kategori Toko B" },
+        "2": { "label": "Kategori Toko C" }
+      }
+    },
+    "support": {
+      "label": "Dukungan",
+      "items": {
+        "0": { "label": "FAQ" },
+        "1": { "label": "Hubungi Kami" },
+        "2": { "label": "Garansi" }
+      }
+    },
+    "about": {
+      "label": "Tentang Kami",
+      "items": {
+        "0": { "label": "Kisah Kami" },
+        "1": { "label": "Tim" },
+        "2": { "label": "Karir" }
+      }
+    },
+    "member": {
+      "label": "Anggota",
+      "items": {
+        "0": { "label": "Paket Keanggotaan" },
+        "1": { "label": "Poin & Hadiah" },
+        "2": { "label": "Penawaran Eksklusif" }
+      }
+    }
+  },
+  "member": {
+    "brief": {
+      "membershipLevel": "Tingkat keanggotaan:",
+      "productDiscountRate": "Tarif diskon produk:",
+      "pointsDiscountRate": "Tarif diskon poin:",
+      "canBeStacked": "Dapat ditumpuk"
+    },
+    "common": { "yes": "Ya", "no": "Tidak" },
+    "levels": {
+      "title": "Tingkat keanggotaan",
+      "header": {
+        "level": "Tingkat",
+        "pointsRequired": "Poin yang dibutuhkan",
+        "productDiscount": "Diskon produk",
+        "pointsDiscount": "Diskon poin"
+      },
+      "rows": {
+        "ordinary": "Biasa",
+        "bronze": "Perunggu",
+        "silver": "Perak",
+        "gold": "Emas",
+        "supreme": "Tertinggi"
+      }
+    },
+    "points": {
+      "title": "Cara mendapatkan poin?",
+      "invite": "Undang pengguna baru",
+      "inviteDesc": "50 poin (yang diundang mendapat 30 poin)",
+      "consume": "Mata uang",
+      "consumeDesc": "1 Dolar = 1 Poin",
+      "daily": "Masuk harian",
+      "dailyDesc": "1 poin (berlaku 30 hari)"
+    }
+  },
+  "promo": { "memberCta": "Diskon hingga 50% untuk anggota" }
+}

@@ -1,0 +1,104 @@
+{
+  "user": {
+    "memberCenter": "সদস্য কেন্দ্র",
+    "register": "নিবন্ধন করুন",
+    "login": "লগইন",
+    "logout": "লগআউট",
+    "closeLogin": "লগইন বন্ধ করুন",
+    "points": "{count} পয়েন্ট"
+  },
+  "auth": {
+    "registerTitle": "নিবন্ধন করুন",
+    "loginTitle": "লগইন",
+    "username": "ব্যবহারকারীর নাম",
+    "email": "ইমেইল",
+    "password": "পাসওয়ার্ড",
+    "registering": "নিবন্ধন করা হচ্ছে...",
+    "loggingIn": "লগইন করা হচ্ছে...",
+    "alreadyHaveAccount": "ইতিমধ্যে একটি অ্যাকাউন্ট আছে?",
+    "dontHaveAccount": "অ্যাকাউন্ট নেই?",
+    "usernameOrEmail": "ব্যবহারকারীর নাম বা ইমেইল",
+    "rememberMe": "আমাকে মনে রাখুন"
+  },
+  "search": {
+    "placeholder": "অনুসন্ধান...",
+    "button": "অনুসন্ধান"
+  },
+  "nav": {
+    "home": "হোম",
+    "shop": "দোকান",
+    "about": "আমাদের সম্পর্কে",
+    "contact": "যোগাযোগ"
+  },
+  "menu": {
+    "shop": {
+      "label": "দোকান",
+      "items": {
+        "0": { "label": "দোকান বিভাগ A" },
+        "1": { "label": "দোকান বিভাগ B" },
+        "2": { "label": "দোকান বিভাগ C" }
+      }
+    },
+    "support": {
+      "label": "সহায়তা",
+      "items": {
+        "0": { "label": "প্রায়শই জিজ্ঞাসিত প্রশ্ন" },
+        "1": { "label": "আমাদের সাথে যোগাযোগ করুন" },
+        "2": { "label": "ওয়ারেন্টি" }
+      }
+    },
+    "about": {
+      "label": "আমাদের সম্পর্কে",
+      "items": {
+        "0": { "label": "আমাদের গল্প" },
+        "1": { "label": "দল" },
+        "2": { "label": "ক্যারিয়ার" }
+      }
+    },
+    "member": {
+      "label": "সদস্য",
+      "items": {
+        "0": { "label": "সদস্যপদ পরিকল্পনা" },
+        "1": { "label": "পয়েন্ট এবং পুরস্কার" },
+        "2": { "label": "এক্সক্লুসিভ অফার" }
+      }
+    }
+  },
+  "member": {
+    "brief": {
+      "membershipLevel": "সদস্যতার স্তর:",
+      "productDiscountRate": "পণ্যের ডিসকাউন্ট হার:",
+      "pointsDiscountRate": "পয়েন্ট ডিসকাউন্ট হার:",
+      "canBeStacked": "স্ট্যাক করা যাবে"
+    },
+    "common": { "yes": "হ্যাঁ", "no": "না" },
+    "levels": {
+      "title": "সদস্যতার স্তর",
+      "header": {
+        "level": "স্তর",
+        "pointsRequired": "প্রয়োজনীয় পয়েন্ট",
+        "productDiscount": "পণ্যের ডিসকাউন্ট",
+        "pointsDiscount": "পয়েন্ট ডিসকাউন্ট"
+      },
+      "rows": {
+        "ordinary": "সাধারণ",
+        "bronze": "ব্রোঞ্জ",
+        "silver": "সিলভার",
+        "gold": "গোল্ড",
+        "supreme": "সুপ্রিম"
+      }
+    },
+    "points": {
+      "title": "পয়েন্ট কিভাবে পাবেন?",
+      "invite": "নতুন ব্যবহারকারী আমন্ত্রণ",
+      "inviteDesc": "৫০ পয়েন্ট (আমন্ত্রিত ৩০ পয়েন্ট পাবে)",
+      "consume": "কারেন্সি",
+      "consumeDesc": "১ ডলার = ১ পয়েন্ট",
+      "daily": "দৈনিক লগইন",
+      "dailyDesc": "১ পয়েন্ট (৩০ দিন বৈধ)"
+    }
+  },
+  "promo": {
+    "memberCta": "সদস্যদের জন্য সর্বোচ্চ ৫০% ছাড়"
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "welcome": "환영합니다",
+  "home": "홈",
+  "category": "카테고리",
+  "subcategory": "하위 카테고리",
+  "search": {
+    "placeholder": "검색...",
+    "button": "검색"
+  },
+  "filters": {
+    "wheelDiameter": "휠 직경",
+    "price": "가격",
+    "brand": "브랜드",
+    "brakeStyle": "브레이크 스타일",
+    "color": "색상",
+    "all": "전체"
+  },
+  "user": {
+    "register": "등록",
+    "login": "로그인",
+    "logout": "로그아웃",
+    "points": "포인트: {count}"
+  },
+  "cta": {
+    "becomeMemb": "🎉회원이 되어 최대 30% 할인을 받으세요🎉"
+  },
+  "auth": {
+    "registerTitle": "등록",
+    "loginTitle": "로그인",
+    "username": "사용자 이름",
+    "email": "이메일",
+    "password": "비밀번호",
+    "registering": "등록 중...",
+    "loggingIn": "로그인 중...",
+    "alreadyHaveAccount": "이미 계정이 있으신가요?",
+    "dontHaveAccount": "계정이 없으신가요?",
+    "usernameOrEmail": "사용자 이름 또는 이메일"
+  },
+  "menu": {
+    "shop": {
+      "label": "쇼핑",
+      "items": {
+        "0": { "label": "카테고리 A" },
+        "1": { "label": "카테고리 B" },
+        "2": { "label": "카테고리 C" }
+      }
+    },
+    "support": {
+      "label": "지원",
+      "items": {
+        "0": { "label": "자주 묻는 질문" },
+        "1": { "label": "문의하기" },
+        "2": { "label": "보증" }
+      }
+    },
+    "about": {
+      "label": "회사 소개",
+      "items": {
+        "0": { "label": "우리의 이야기" },
+        "1": { "label": "팀" },
+        "2": { "label": "채용" }
+      }
+    },
+    "member": {
+      "label": "회원",
+      "items": {
+        "0": { "label": "회원 플랜" },
+        "1": { "label": "포인트 및 리워드" },
+        "2": { "label": "독점 혜택" }
+      }
+    }
+  },
+  "member": {
+    "brief": {
+      "membershipLevel": "회원 레벨:",
+      "productDiscountRate": "상품 할인율:",
+      "pointsDiscountRate": "포인트 할인율:",
+      "canBeStacked": "중복 적용 가능"
+    },
+    "common": {
+      "yes": "예",
+      "no": "아니오"
+    },
+    "levels": {
+      "title": "회원 레벨",
+      "header": {
+        "level": "레벨",
+        "pointsRequired": "필요 포인트",
+        "productDiscount": "상품 할인",
+        "pointsDiscount": "포인트 할인"
+      },
+      "rows": {
+        "ordinary": "일반",
+        "bronze": "브론즈",
+        "silver": "실버",
+        "gold": "골드",
+        "supreme": "수프림"
+      }
+    },
+    "points": {
+      "title": "포인트 얻는 방법",
+      "invite": "신규 사용자 초대",
+      "inviteDesc": "50 포인트 (초대받은 사용자 30 포인트)",
+      "consume": "소비 통화",
+      "consumeDesc": "1 달러 = 1 포인트",
+      "daily": "매일 로그인",
+      "dailyDesc": "1 포인트 (유효기간 30일)"
+    }
+  },
+  "promo": { "memberCta": "회원 대상 최대 50% 할인" }
+}

@@ -1,0 +1,102 @@
+{
+  "user": {
+    "memberCenter": "Sentro ng Miyembro",
+    "register": "Magrehistro",
+    "login": "Mag-login",
+    "logout": "Mag-logout",
+    "closeLogin": "Isara ang Login",
+    "points": "{count} puntos"
+  },
+  "auth": {
+    "registerTitle": "Magrehistro",
+    "loginTitle": "Mag-login",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "registering": "Nagrerehistro...",
+    "loggingIn": "Nagla-login...",
+    "alreadyHaveAccount": "Mayroon nang account?",
+    "dontHaveAccount": "Walang account?",
+    "usernameOrEmail": "Username o Email",
+    "rememberMe": "Tandaan ako"
+  },
+  "search": {
+    "placeholder": "Maghanap...",
+    "button": "Maghanap"
+  },
+  "nav": {
+    "home": "Home",
+    "shop": "Tindahan",
+    "about": "Tungkol sa Amin",
+    "contact": "Makipag-ugnayan"
+  },
+  "menu": {
+    "shop": {
+      "label": "Tindahan",
+      "items": {
+        "0": { "label": "Kategorya ng Tindahan A" },
+        "1": { "label": "Kategorya ng Tindahan B" },
+        "2": { "label": "Kategorya ng Tindahan C" }
+      }
+    },
+    "support": {
+      "label": "Suporta",
+      "items": {
+        "0": { "label": "Mga Madalas Itanong" },
+        "1": { "label": "Makipag-ugnayan sa Amin" },
+        "2": { "label": "Warranty" }
+      }
+    },
+    "about": {
+      "label": "Tungkol sa Amin",
+      "items": {
+        "0": { "label": "Ang Aming Kuwento" },
+        "1": { "label": "Koponan" },
+        "2": { "label": "Mga Karera" }
+      }
+    },
+    "member": {
+      "label": "Miyembro",
+      "items": {
+        "0": { "label": "Mga Plano sa Membership" },
+        "1": { "label": "Mga Puntos at Gantimpala" },
+        "2": { "label": "Mga Eksklusibong Alok" }
+      }
+    }
+  },
+  "member": {
+    "brief": {
+      "membershipLevel": "Antas ng pagiging miyembro:",
+      "productDiscountRate": "Rate ng diskwento sa produkto:",
+      "pointsDiscountRate": "Rate ng diskwento sa puntos:",
+      "canBeStacked": "Maaaring ipagsama"
+    },
+    "common": { "yes": "Oo", "no": "Hindi" },
+    "levels": {
+      "title": "Mga antas ng pagiging miyembro",
+      "header": {
+        "level": "Antas",
+        "pointsRequired": "Kinakailangang puntos",
+        "productDiscount": "Diskwento sa produkto",
+        "pointsDiscount": "Diskwento sa puntos"
+      },
+      "rows": {
+        "ordinary": "Karaniwan",
+        "bronze": "Bronse",
+        "silver": "Pilak",
+        "gold": "Ginto",
+        "supreme": "Pinakamataas"
+      }
+    },
+    "points": {
+      "title": "Paano makakakuha ng puntos?",
+      "invite": "Mag-imbita ng mga bagong user",
+      "inviteDesc": "50 Puntos (ang naimbitahan ay makakakuha ng 30 Puntos)",
+      "consume": "Pera",
+      "consumeDesc": "1 Dolyar = 1 Punto",
+      "daily": "Pang-araw-araw na pag-login",
+      "dailyDesc": "1 Punto (balido ng 30 araw)"
+    }
+  },
+  "promo": { "memberCta": "Hanggang 50% diskwento para sa mga miyembro" }
+}

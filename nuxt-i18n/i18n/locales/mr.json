@@ -1,0 +1,104 @@
+{
+  "user": {
+    "memberCenter": "सदस्य केंद्र",
+    "register": "नोंदणी करा",
+    "login": "लॉगिन",
+    "logout": "लॉगआउट",
+    "closeLogin": "लॉगिन बंद करा",
+    "points": "{count} गुण"
+  },
+  "auth": {
+    "registerTitle": "नोंदणी करा",
+    "loginTitle": "लॉगिन",
+    "username": "वापरकर्ता नाव",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "registering": "नोंदणी होत आहे...",
+    "loggingIn": "लॉगिन होत आहे...",
+    "alreadyHaveAccount": "आधीच खाते आहे?",
+    "dontHaveAccount": "खाते नाही?",
+    "usernameOrEmail": "वापरकर्ता नाव किंवा ईमेल",
+    "rememberMe": "मला लक्षात ठेवा"
+  },
+  "search": {
+    "placeholder": "शोधा...",
+    "button": "शोधा"
+  },
+  "nav": {
+    "home": "मुख्यपृष्ठ",
+    "shop": "दुकान",
+    "about": "आमच्याबद्दल",
+    "contact": "संपर्क करा"
+  },
+  "menu": {
+    "shop": {
+      "label": "दुकान",
+      "items": {
+        "0": { "label": "दुकान श्रेणी A" },
+        "1": { "label": "दुकान श्रेणी B" },
+        "2": { "label": "दुकान श्रेणी C" }
+      }
+    },
+    "support": {
+      "label": "समर्थन",
+      "items": {
+        "0": { "label": "वारंवार विचारले जाणारे प्रश्न" },
+        "1": { "label": "आमच्याशी संपर्क साधा" },
+        "2": { "label": "हमी" }
+      }
+    },
+    "about": {
+      "label": "आमच्याबद्दल",
+      "items": {
+        "0": { "label": "आमची कथा" },
+        "1": { "label": "टीम" },
+        "2": { "label": "करिअर" }
+      }
+    },
+    "member": {
+      "label": "सदस्य",
+      "items": {
+        "0": { "label": "सदस्यत्व योजना" },
+        "1": { "label": "गुण आणि बक्षिसे" },
+        "2": { "label": "विशेष ऑफर्स" }
+      }
+    }
+  },
+  "member": {
+    "brief": {
+      "membershipLevel": "सदस्यत्व स्तर:",
+      "productDiscountRate": "उत्पादन सवलत दर:",
+      "pointsDiscountRate": "पॉइंट्स सवलत दर:",
+      "canBeStacked": "स्टॅक करता येते"
+    },
+    "common": { "yes": "होय", "no": "नाही" },
+    "levels": {
+      "title": "सदस्यत्व स्तर",
+      "header": {
+        "level": "स्तर",
+        "pointsRequired": "आवश्यक पॉइंट्स",
+        "productDiscount": "उत्पादन सवलत",
+        "pointsDiscount": "पॉइंट्स सवलत"
+      },
+      "rows": {
+        "ordinary": "सामान्य",
+        "bronze": "ब्रॉन्झ",
+        "silver": "सिल्वर",
+        "gold": "गोल्ड",
+        "supreme": "सुप्रीम"
+      }
+    },
+    "points": {
+      "title": "पॉइंट्स कसे मिळवावे?",
+      "invite": "नवीन वापरकर्ते आमंत्रित करा",
+      "inviteDesc": "50 पॉइंट्स (आमंत्रितास 30 पॉइंट्स)",
+      "consume": "चलन",
+      "consumeDesc": "1 डॉलर = 1 पॉइंट",
+      "daily": "दैनिक लॉगिन",
+      "dailyDesc": "1 पॉइंट (30 दिवस वैध)"
+    }
+  },
+  "promo": {
+    "memberCta": "सदस्यांसाठी कमाल 50% सूट"
+  }
+}
