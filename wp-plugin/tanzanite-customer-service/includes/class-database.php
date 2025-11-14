@@ -91,11 +91,57 @@ class TZ_CS_Database {
             KEY priority (priority)
         ) $charset_collate;";
         
+        // 客服账号表
+        $table_agents = $wpdb->prefix . 'tz_cs_agents';
+        $sql_agents = "CREATE TABLE $table_agents (
+            id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+            agent_id varchar(50) NOT NULL,
+            name varchar(100) NOT NULL,
+            email varchar(100) NOT NULL,
+            password varchar(255) NOT NULL,
+            avatar varchar(500) DEFAULT '',
+            whatsapp varchar(50) DEFAULT '',
+            status varchar(20) DEFAULT 'active',
+            last_login datetime,
+            created_at datetime NOT NULL,
+            updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            UNIQUE KEY agent_id (agent_id),
+            KEY status (status),
+            KEY email (email)
+        ) $charset_collate;";
+        
+        // 客服Token表
+        $table_tokens = $wpdb->prefix . 'tz_cs_tokens';
+        $sql_tokens = "CREATE TABLE $table_tokens (
+            id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+            agent_id varchar(50) NOT NULL,
+            token varchar(255) NOT NULL,
+            device_info text,
+            expires_at datetime NOT NULL,
+            created_at datetime NOT NULL,
+            PRIMARY KEY  (id),
+            UNIQUE KEY token (token),
+            KEY agent_id (agent_id),
+            KEY expires_at (expires_at)
+        ) $charset_collate;";
+        
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         
+        // 先尝试用 dbDelta 创建旧表
         $result_messages = dbDelta( $sql_messages );
         $result_conversations = dbDelta( $sql_conversations );
         $result_auto_replies = dbDelta( $sql_auto_replies );
+        
+        // 对于新表，直接用原生 SQL 创建（避免 dbDelta 的问题）
+        $wpdb->query( "DROP TABLE IF EXISTS $table_agents" );
+        $wpdb->query( $sql_agents );
+        
+        $wpdb->query( "DROP TABLE IF EXISTS $table_tokens" );
+        $wpdb->query( $sql_tokens );
+        
+        $result_agents = [ 'created' => $table_agents ];
+        $result_tokens = [ 'created' => $table_tokens ];
         
         // 记录创建结果用于调试
         update_option( 'tz_cs_db_creation_result', [

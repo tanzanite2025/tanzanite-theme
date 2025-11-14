@@ -3,7 +3,7 @@
  * Plugin Name: Tanzanite Customer Service
  * Plugin URI: https://tanzanite.site
  * Description: 客服管理插件 - 管理客服信息并提供 REST API
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Tanzanite
  * Text Domain: tanzanite-cs
  * Domain Path: /languages
@@ -16,13 +16,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // 定义插件常量
-define( 'TZ_CS_VERSION', '1.0.0' );
+define( 'TZ_CS_VERSION', '1.1.0' );
+define( 'TZ_CS_DB_VERSION', '1.1.0' );
 define( 'TZ_CS_PLUGIN_FILE', __FILE__ );
 define( 'TZ_CS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'TZ_CS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 // 引入数据库类
 require_once TZ_CS_PLUGIN_DIR . 'includes/class-database.php';
+
+// 引入客服认证类
+require_once TZ_CS_PLUGIN_DIR . 'includes/class-agent-auth.php';
+
+// 引入客服端API类
+require_once TZ_CS_PLUGIN_DIR . 'api/class-agent-api.php';
 
 // 引入自动回复API类
 require_once TZ_CS_PLUGIN_DIR . 'api/class-auto-reply-api.php';
@@ -343,33 +350,37 @@ class Tanzanite_Customer_Service_Plugin {
             'permission_callback' => [ $this, 'check_agent_permission' ],
         ] );
         
+        // 注册客服端API路由
+        TZ_CS_Agent_API::register_routes();
+        
         // 注册自动回复API路由
         TZ_CS_Auto_Reply_API::register_routes();
     }
     
     /**
-     * REST API: 获取客服列表
+     * REST API: 获取客服列表（访客端）
      */
     public function rest_get_agents( \WP_REST_Request $request ): \WP_REST_Response {
-        $agents = get_option( 'tz_customer_service_agents', [] );
+        global $wpdb;
+        $table = $wpdb->prefix . 'tz_cs_agents';
         
         // 只返回启用的客服
-        $active_agents = array_filter( $agents, fn( $agent ) => ( $agent['status'] ?? 'active' ) === 'active' );
-        
-        // 按排序字段排序
-        usort( $active_agents, fn( $a, $b ) => ( $a['order'] ?? 0 ) - ( $b['order'] ?? 0 ) );
+        $agents = $wpdb->get_results(
+            "SELECT agent_id, name, email, avatar, whatsapp FROM $table WHERE status = 'active' ORDER BY created_at ASC"
+        );
         
         // 格式化输出
         $formatted = array_map( fn( $agent ) => [
-            'id'     => $agent['id'] ?? '',
-            'name'   => $agent['name'] ?? '',
-            'email'  => $agent['email'] ?? '',
-            'avatar' => $agent['avatar'] ?? '',
-        ], $active_agents );
+            'id'       => $agent->agent_id,
+            'name'     => $agent->name,
+            'email'    => $agent->email,
+            'avatar'   => $agent->avatar,
+            'whatsapp' => $agent->whatsapp,
+        ], $agents );
         
         return new \WP_REST_Response( [
             'success' => true,
-            'data'    => array_values( $formatted ),
+            'data'    => $formatted,
         ], 200 );
     }
     
@@ -543,167 +554,274 @@ class Tanzanite_Customer_Service_Plugin {
             exit;
         }
         
-        // 处理表单提交
-        if ( isset( $_POST['tz_cs_save'] ) && check_admin_referer( 'tz_customer_service_save' ) ) {
-            $agents = [];
+        // 处理手动创建数据库表
+        if ( isset( $_POST['tz_cs_create_tables'] ) && check_admin_referer( 'tz_cs_create_tables' ) ) {
+            global $wpdb;
             
-            if ( isset( $_POST['agents'] ) && is_array( $_POST['agents'] ) ) {
-                foreach ( $_POST['agents'] as $agent ) {
-                    $agents[] = [
-                        'id'     => sanitize_text_field( $agent['id'] ?? '' ),
-                        'name'   => sanitize_text_field( $agent['name'] ?? '' ),
-                        'email'  => sanitize_email( $agent['email'] ?? '' ),
-                        'avatar' => esc_url_raw( $agent['avatar'] ?? '' ),
-                        'status' => sanitize_text_field( $agent['status'] ?? 'active' ),
-                        'order'  => intval( $agent['order'] ?? 0 ),
-                    ];
+            // 显示 SQL 错误
+            $wpdb->show_errors();
+            
+            TZ_CS_Database::create_tables();
+            update_option( 'tz_cs_db_version', TZ_CS_DB_VERSION );
+            
+            // 检查表是否真的创建成功
+            $table = $wpdb->prefix . 'tz_cs_agents';
+            $table_exists = $wpdb->get_var( "SHOW TABLES LIKE '$table'" ) === $table;
+            
+            if ( $table_exists ) {
+                echo '<div class="notice notice-success"><p>✅ 数据库表创建成功！请刷新页面。</p></div>';
+            } else {
+                echo '<div class="notice notice-error"><p>❌ 表创建失败！</p>';
+                if ( $wpdb->last_error ) {
+                    echo '<p>错误信息：' . esc_html( $wpdb->last_error ) . '</p>';
                 }
+                echo '</div>';
             }
             
-            update_option( 'tz_customer_service_agents', $agents );
-            echo '<div class="notice notice-success"><p>' . __( 'Customer service agents saved successfully.', 'tanzanite-cs' ) . '</p></div>';
+            $wpdb->hide_errors();
         }
         
-        // 获取现有配置
-        $agents = get_option( 'tz_customer_service_agents', [] );
+        // 处理添加新客服
+        if ( isset( $_POST['tz_cs_add_agent'] ) && check_admin_referer( 'tz_cs_add_agent' ) ) {
+            global $wpdb;
+            $table = $wpdb->prefix . 'tz_cs_agents';
+            
+            $agent_id = sanitize_text_field( $_POST['agent_id'] );
+            $name     = sanitize_text_field( $_POST['name'] );
+            $email    = sanitize_email( $_POST['email'] );
+            $password = $_POST['password'];
+            $avatar   = esc_url_raw( $_POST['avatar'] );
+            $whatsapp = sanitize_text_field( $_POST['whatsapp'] );
+            
+            // 检查工号是否已存在
+            $exists = $wpdb->get_var( $wpdb->prepare(
+                "SELECT COUNT(*) FROM $table WHERE agent_id = %s",
+                $agent_id
+            ) );
+            
+            if ( $exists ) {
+                echo '<div class="notice notice-error"><p>客服工号已存在！</p></div>';
+            } else {
+                // 插入新客服
+                $result = $wpdb->insert(
+                    $table,
+                    [
+                        'agent_id'   => $agent_id,
+                        'name'       => $name,
+                        'email'      => $email,
+                        'password'   => password_hash( $password, PASSWORD_BCRYPT ),
+                        'avatar'     => $avatar,
+                        'whatsapp'   => $whatsapp,
+                        'status'     => 'active',
+                        'created_at' => current_time( 'mysql' ),
+                    ],
+                    [ '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' ]
+                );
+                
+                if ( $result ) {
+                    echo '<div class="notice notice-success"><p>客服创建成功！工号：' . esc_html( $agent_id ) . '</p></div>';
+                } else {
+                    echo '<div class="notice notice-error"><p>创建失败：' . esc_html( $wpdb->last_error ) . '</p></div>';
+                }
+            }
+        }
+        
+        // 处理更新客服状态
+        if ( isset( $_POST['tz_cs_update_status'] ) && check_admin_referer( 'tz_cs_update_status' ) ) {
+            global $wpdb;
+            $table = $wpdb->prefix . 'tz_cs_agents';
+            
+            $agent_id = sanitize_text_field( $_POST['agent_id'] );
+            $status   = sanitize_text_field( $_POST['status'] );
+            
+            $wpdb->update(
+                $table,
+                [ 'status' => $status ],
+                [ 'agent_id' => $agent_id ],
+                [ '%s' ],
+                [ '%s' ]
+            );
+            
+            echo '<div class="notice notice-success"><p>客服状态已更新！</p></div>';
+        }
+        
+        // 处理重置密码
+        if ( isset( $_POST['tz_cs_reset_password'] ) && check_admin_referer( 'tz_cs_reset_password' ) ) {
+            global $wpdb;
+            $table = $wpdb->prefix . 'tz_cs_agents';
+            
+            $agent_id     = sanitize_text_field( $_POST['agent_id'] );
+            $new_password = $_POST['new_password'];
+            
+            $wpdb->update(
+                $table,
+                [ 'password' => password_hash( $new_password, PASSWORD_BCRYPT ) ],
+                [ 'agent_id' => $agent_id ],
+                [ '%s' ],
+                [ '%s' ]
+            );
+            
+            echo '<div class="notice notice-success"><p>密码已重置！</p></div>';
+        }
+        
+        // 检查表是否存在
+        global $wpdb;
+        $table = $wpdb->prefix . 'tz_cs_agents';
+        $table_exists = $wpdb->get_var( "SHOW TABLES LIKE '$table'" ) === $table;
+        
+        // 如果表不存在，显示创建按钮
+        if ( ! $table_exists ) {
+            ?>
+            <div class="wrap">
+                <h1>Customer Service Management</h1>
+                <div class="notice notice-warning" style="padding: 20px; margin: 20px 0;">
+                    <h2 style="margin-top: 0;">⚠️ 数据库表未创建</h2>
+                    <p>检测到客服管理所需的数据库表尚未创建。请点击下方按钮创建数据库表。</p>
+                    <form method="post" style="margin-top: 16px;">
+                        <?php wp_nonce_field( 'tz_cs_create_tables' ); ?>
+                        <button type="submit" name="tz_cs_create_tables" class="button button-primary button-large">
+                            🔧 立即创建数据库表
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <?php
+            return;
+        }
+        
+        // 获取数据库中的客服列表
+        $agents = $wpdb->get_results( "SELECT * FROM $table ORDER BY created_at DESC" );
         
         ?>
         <div class="wrap tz-cs-admin">
             <div class="tz-settings-wrapper">
                 <div class="tz-settings-header">
                     <h1><?php _e( 'Customer Service Management', 'tanzanite-cs' ); ?></h1>
-                    <p><?php _e( '管理客服信息，配置客服邮箱、头像与排序。启用的客服将通过 REST API 提供给前端使用。', 'tanzanite-cs' ); ?></p>
+                    <p><?php _e( '管理客服账号，客服可使用工号和密码登录移动端 App。', 'tanzanite-cs' ); ?></p>
                 </div>
                 
+                <!-- 添加新客服表单 -->
+                <div class="tz-settings-section" style="background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+                    <h2 style="margin-top: 0;">添加新客服</h2>
+                    <form method="post" id="tz-add-agent-form">
+                        <?php wp_nonce_field( 'tz_cs_add_agent' ); ?>
+                        
+                        <table class="form-table">
+                            <tr>
+                                <th><label for="agent_id">客服工号 *</label></th>
+                                <td><input type="text" name="agent_id" id="agent_id" class="regular-text" required placeholder="例如：CS001"></td>
+                            </tr>
+                            <tr>
+                                <th><label for="name">客服名称 *</label></th>
+                                <td><input type="text" name="name" id="name" class="regular-text" required placeholder="例如：张三"></td>
+                            </tr>
+                            <tr>
+                                <th><label for="email">邮箱 *</label></th>
+                                <td><input type="email" name="email" id="email" class="regular-text" required placeholder="agent@example.com"></td>
+                            </tr>
+                            <tr>
+                                <th><label for="password">密码 *</label></th>
+                                <td><input type="password" name="password" id="password" class="regular-text" required placeholder="至少 8 位" minlength="8"></td>
+                            </tr>
+                            <tr>
+                                <th><label for="whatsapp">WhatsApp 号码</label></th>
+                                <td>
+                                    <input type="text" name="whatsapp" id="whatsapp" class="regular-text" placeholder="例如：+8613800138000">
+                                    <p class="description">用于前端显示 WhatsApp 联系按钮，格式：+国家码+号码（如 +8613800138000）</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label for="avatar">头像 URL</label></th>
+                                <td>
+                                    <input type="url" name="avatar" id="avatar" class="regular-text" placeholder="https://...">
+                                    <button type="button" class="button" id="upload-avatar-btn">上传头像</button>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        <p class="submit">
+                            <button type="submit" name="tz_cs_add_agent" class="button button-primary">创建客服</button>
+                        </p>
+                    </form>
+                </div>
+                
+                <!-- 现有客服列表 -->
                 <div class="tz-settings-section">
-                    <form method="post" id="tz-customer-service-form">
-                <?php wp_nonce_field( 'tz_customer_service_save' ); ?>
+                    <h2>现有客服</h2>
                 
                 <table class="wp-list-table widefat fixed striped">
                     <thead>
                         <tr>
-                            <th style="width: 50px;"><?php _e( 'Order', 'tanzanite-cs' ); ?></th>
-                            <th><?php _e( 'Name', 'tanzanite-cs' ); ?></th>
-                            <th><?php _e( 'Email', 'tanzanite-cs' ); ?></th>
-                            <th><?php _e( 'Avatar URL', 'tanzanite-cs' ); ?></th>
-                            <th style="width: 100px;"><?php _e( 'Status', 'tanzanite-cs' ); ?></th>
-                            <th style="width: 80px;"><?php _e( 'Action', 'tanzanite-cs' ); ?></th>
+                            <th>工号</th>
+                            <th>名称</th>
+                            <th>邮箱</th>
+                            <th>WhatsApp</th>
+                            <th>头像</th>
+                            <th>状态</th>
+                            <th>最后登录</th>
+                            <th>创建时间</th>
+                            <th>操作</th>
                         </tr>
                     </thead>
-                    <tbody id="tz-agents-list">
+                    <tbody>
                         <?php if ( empty( $agents ) ) : ?>
-                            <tr class="tz-agent-row">
-                                <td><input type="number" name="agents[0][order]" value="1" min="0" style="width: 60px;"></td>
-                                <td><input type="text" name="agents[0][name]" value="" placeholder="Customer Service" class="regular-text" required></td>
-                                <td><input type="email" name="agents[0][email]" value="" placeholder="support@example.com" class="regular-text" required></td>
-                                <td>
-                                    <div class="avatar-upload-wrapper">
-                                        <div class="avatar-preview placeholder">无</div>
-                                        <input type="hidden" name="agents[0][avatar]" value="" class="avatar-url-input">
-                                        <button type="button" class="button upload-avatar-btn" data-index="0">上传头像</button>
-                                    </div>
-                                </td>
-                                <td>
-                                    <select name="agents[0][status]">
-                                        <option value="active"><?php _e( 'Active', 'tanzanite-cs' ); ?></option>
-                                        <option value="inactive"><?php _e( 'Inactive', 'tanzanite-cs' ); ?></option>
-                                    </select>
-                                </td>
-                                <td><button type="button" class="button tz-remove-agent"><?php _e( 'Remove', 'tanzanite-cs' ); ?></button></td>
+                            <tr>
+                                <td colspan="9" style="text-align: center; padding: 40px; color: #6b7280;">暂无客服，请使用上方表单添加新客服。</td>
                             </tr>
                         <?php else : ?>
-                            <?php foreach ( $agents as $index => $agent ) : ?>
-                                <tr class="tz-agent-row">
-                                    <input type="hidden" name="agents[<?php echo $index; ?>][id]" value="<?php echo esc_attr( $agent['id'] ?? uniqid() ); ?>">
-                                    <td><input type="number" name="agents[<?php echo $index; ?>][order]" value="<?php echo esc_attr( $agent['order'] ?? $index ); ?>" min="0" style="width: 60px;"></td>
-                                    <td><input type="text" name="agents[<?php echo $index; ?>][name]" value="<?php echo esc_attr( $agent['name'] ?? '' ); ?>" placeholder="Customer Service" class="regular-text" required></td>
-                                    <td><input type="email" name="agents[<?php echo $index; ?>][email]" value="<?php echo esc_attr( $agent['email'] ?? '' ); ?>" placeholder="support@example.com" class="regular-text" required></td>
+                            <?php foreach ( $agents as $agent ) : ?>
+                                <tr>
+                                    <td><strong><?php echo esc_html( $agent->agent_id ); ?></strong></td>
+                                    <td><?php echo esc_html( $agent->name ); ?></td>
+                                    <td><?php echo esc_html( $agent->email ); ?></td>
                                     <td>
-                                        <div class="avatar-upload-wrapper">
-                                            <?php if ( ! empty( $agent['avatar'] ) ) : ?>
-                                                <img src="<?php echo esc_url( $agent['avatar'] ); ?>" class="avatar-preview" alt="Avatar">
-                                            <?php else : ?>
-                                                <div class="avatar-preview placeholder">无</div>
-                                            <?php endif; ?>
-                                            <input type="hidden" name="agents[<?php echo $index; ?>][avatar]" value="<?php echo esc_url( $agent['avatar'] ?? '' ); ?>" class="avatar-url-input">
-                                            <button type="button" class="button upload-avatar-btn" data-index="<?php echo $index; ?>">上传头像</button>
-                                        </div>
+                                        <?php if ( ! empty( $agent->whatsapp ) ) : ?>
+                                            <a href="https://wa.me/<?php echo esc_attr( str_replace( '+', '', $agent->whatsapp ) ); ?>" target="_blank" style="color: #25D366; text-decoration: none;">
+                                                📱 <?php echo esc_html( $agent->whatsapp ); ?>
+                                            </a>
+                                        <?php else : ?>
+                                            <span style="color: #9ca3af;">未设置</span>
+                                        <?php endif; ?>
                                     </td>
                                     <td>
-                                        <select name="agents[<?php echo $index; ?>][status]">
-                                            <option value="active" <?php selected( $agent['status'] ?? 'active', 'active' ); ?>><?php _e( 'Active', 'tanzanite-cs' ); ?></option>
-                                            <option value="inactive" <?php selected( $agent['status'] ?? 'active', 'inactive' ); ?>><?php _e( 'Inactive', 'tanzanite-cs' ); ?></option>
-                                        </select>
+                                        <?php if ( ! empty( $agent->avatar ) ) : ?>
+                                            <img src="<?php echo esc_url( $agent->avatar ); ?>" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" alt="Avatar">
+                                        <?php else : ?>
+                                            <span style="color: #9ca3af;">无</span>
+                                        <?php endif; ?>
                                     </td>
-                                    <td><button type="button" class="button tz-remove-agent"><?php _e( 'Remove', 'tanzanite-cs' ); ?></button></td>
+                                    <td>
+                                        <span style="display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 500; background: <?php echo $agent->status === 'active' ? '#10b981' : '#ef4444'; ?>; color: white;">
+                                            <?php echo $agent->status === 'active' ? '启用' : '禁用'; ?>
+                                        </span>
+                                    </td>
+                                    <td><?php echo $agent->last_login ? esc_html( $agent->last_login ) : '<span style="color: #9ca3af;">从未登录</span>'; ?></td>
+                                    <td><?php echo esc_html( $agent->created_at ); ?></td>
+                                    <td>
+                                        <form method="post" style="display: inline-block; margin-right: 8px;">
+                                            <?php wp_nonce_field( 'tz_cs_update_status' ); ?>
+                                            <input type="hidden" name="agent_id" value="<?php echo esc_attr( $agent->agent_id ); ?>">
+                                            <input type="hidden" name="status" value="<?php echo $agent->status === 'active' ? 'inactive' : 'active'; ?>">
+                                            <button type="submit" name="tz_cs_update_status" class="button button-small">
+                                                <?php echo $agent->status === 'active' ? '禁用' : '启用'; ?>
+                                            </button>
+                                        </form>
+                                        <button type="button" class="button button-small reset-password-btn" data-agent-id="<?php echo esc_attr( $agent->agent_id ); ?>" data-agent-name="<?php echo esc_attr( $agent->name ); ?>">重置密码</button>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </tbody>
                 </table>
-                
-                <p style="margin-top: 20px; display: flex; gap: 12px;">
-                    <button type="button" id="tz-add-agent" class="button"><?php _e( 'Add Agent', 'tanzanite-cs' ); ?></button>
-                    <button type="submit" name="tz_cs_save" class="button button-primary"><?php _e( 'Save Changes', 'tanzanite-cs' ); ?></button>
-                </p>
-            </form>
-                </div>
-            
-                <div class="card">
-                    <h2><?php _e( 'API Endpoint', 'tanzanite-cs' ); ?></h2>
-                    <p><?php _e( '前端可通过以下 REST API 端点获取启用的客服列表：', 'tanzanite-cs' ); ?></p>
-                    <code>GET <?php echo esc_url( rest_url( 'tanzanite/v1/customer-service/agents' ) ); ?></code>
-                    <p style="margin-top: 12px; color: #6b7280; font-size: 13px;">
-                        <?php _e( '返回的数据包含客服 ID、姓名、邮箱、头像 URL，按排序字段升序排列。', 'tanzanite-cs' ); ?>
-                    </p>
                 </div>
             </div>
         </div>
         
         <script>
         jQuery(document).ready(function($) {
-            let agentIndex = <?php echo count( $agents ); ?>;
-            
-            // 添加客服
-            $('#tz-add-agent').on('click', function() {
-                const row = `
-                    <tr class="tz-agent-row">
-                        <input type="hidden" name="agents[${agentIndex}][id]" value="${Date.now()}">
-                        <td><input type="number" name="agents[${agentIndex}][order]" value="${agentIndex}" min="0" style="width: 60px;"></td>
-                        <td><input type="text" name="agents[${agentIndex}][name]" value="" placeholder="Customer Service" class="regular-text" required></td>
-                        <td><input type="email" name="agents[${agentIndex}][email]" value="" placeholder="support@example.com" class="regular-text" required></td>
-                        <td>
-                            <div class="avatar-upload-wrapper">
-                                <div class="avatar-preview placeholder">无</div>
-                                <input type="hidden" name="agents[${agentIndex}][avatar]" value="" class="avatar-url-input">
-                                <button type="button" class="button upload-avatar-btn" data-index="${agentIndex}">上传头像</button>
-                            </div>
-                        </td>
-                        <td>
-                            <select name="agents[${agentIndex}][status]">
-                                <option value="active"><?php _e( 'Active', 'tanzanite-cs' ); ?></option>
-                                <option value="inactive"><?php _e( 'Inactive', 'tanzanite-cs' ); ?></option>
-                            </select>
-                        </td>
-                        <td><button type="button" class="button tz-remove-agent"><?php _e( 'Remove', 'tanzanite-cs' ); ?></button></td>
-                    </tr>
-                `;
-                $('#tz-agents-list').append(row);
-                agentIndex++;
-            });
-            
-            // 删除客服
-            $(document).on('click', '.tz-remove-agent', function() {
-                if (confirm('<?php _e( 'Are you sure you want to remove this agent?', 'tanzanite-cs' ); ?>')) {
-                    $(this).closest('tr').remove();
-                }
-            });
-            
-            // 头像上传
-            $(document).on('click', '.upload-avatar-btn', function(e) {
+            // 头像上传（添加新客服表单）
+            $('#upload-avatar-btn').on('click', function(e) {
                 e.preventDefault();
-                const button = $(this);
-                const wrapper = button.closest('.avatar-upload-wrapper');
                 
                 const mediaUploader = wp.media({
                     title: '选择头像',
@@ -714,21 +832,31 @@ class Tanzanite_Customer_Service_Plugin {
                 
                 mediaUploader.on('select', function() {
                     const attachment = mediaUploader.state().get('selection').first().toJSON();
-                    const imageUrl = attachment.url;
-                    
-                    // 更新隐藏字段
-                    wrapper.find('.avatar-url-input').val(imageUrl);
-                    
-                    // 更新预览
-                    let preview = wrapper.find('.avatar-preview');
-                    if (preview.hasClass('placeholder')) {
-                        preview.replaceWith('<img src="' + imageUrl + '" class="avatar-preview" alt="Avatar">');
-                    } else {
-                        preview.attr('src', imageUrl);
-                    }
+                    $('#avatar').val(attachment.url);
                 });
                 
                 mediaUploader.open();
+            });
+            
+            // 重置密码
+            $('.reset-password-btn').on('click', function() {
+                const agentId = $(this).data('agent-id');
+                const agentName = $(this).data('agent-name');
+                
+                const newPassword = prompt('请输入 ' + agentName + ' 的新密码（至少 8 位）：');
+                
+                if (newPassword && newPassword.length >= 8) {
+                    const form = $('<form method="post">' +
+                        '<?php wp_nonce_field( "tz_cs_reset_password", "_wpnonce", true, false ); ?>' +
+                        '<input type="hidden" name="agent_id" value="' + agentId + '">' +
+                        '<input type="hidden" name="new_password" value="' + newPassword + '">' +
+                        '<input type="hidden" name="tz_cs_reset_password" value="1">' +
+                        '</form>');
+                    $('body').append(form);
+                    form.submit();
+                } else if (newPassword !== null) {
+                    alert('密码至少需要 8 位！');
+                }
             });
         });
         </script>
@@ -1048,5 +1176,12 @@ register_activation_hook( __FILE__, [ 'TZ_CS_Database', 'create_tables' ] );
 
 // 初始化插件
 add_action( 'plugins_loaded', function() {
+    // 检查数据库版本，如果不匹配则更新表结构
+    $installed_version = get_option( 'tz_cs_db_version', '0' );
+    if ( version_compare( $installed_version, TZ_CS_DB_VERSION, '<' ) ) {
+        TZ_CS_Database::create_tables();
+        update_option( 'tz_cs_db_version', TZ_CS_DB_VERSION );
+    }
+    
     Tanzanite_Customer_Service_Plugin::instance();
 } );
